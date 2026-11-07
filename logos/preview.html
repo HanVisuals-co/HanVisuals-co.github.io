@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>hanvisuals — Master Brand Asset Kit (Vector SVG Package)</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --canvas: #FDFCF9;
+      --card-bg: #FFFFFF;
+      --dark-canvas: #15171E;
+      --text: #2D3142;
+      --text-muted: #6C7289;
+      --border: rgba(45, 49, 66, 0.08);
+      --yellow: #FFDC56;
+      --tangerine: #FA9F1B;
+      --teal: #51B8B9;
+      --flamingo: #FA7C83;
+      --crimson: #EA4C56;
+    }
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    body {
+      font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
+      background-color: var(--canvas);
+      color: var(--text);
+      padding: 48px 24px;
+      line-height: 1.6;
+    }
+    .container {
+      max-width: 1040px;
+      margin: 0 auto;
+    }
+    header {
+      margin-bottom: 40px;
+      text-align: center;
+    }
+    .badge-tag {
+      display: inline-block;
+      background-color: var(--yellow);
+      color: var(--text);
+      font-size: 13px;
+      font-weight: 800;
+      padding: 6px 18px;
+      border-radius: 9999px;
+      margin-bottom: 14px;
+      letter-spacing: 0.5px;
+    }
+    h1 {
+      font-size: 42px;
+      font-weight: 800;
+      letter-spacing: -1.2px;
+      margin-bottom: 10px;
+    }
+    p.lead {
+      color: var(--text-muted);
+      font-size: 17px;
+      max-width: 720px;
+      margin: 0 auto;
+    }
+    .section-title {
+      font-size: 22px;
+      font-weight: 800;
+      margin: 52px 0 20px;
+      padding-bottom: 8px;
+      border-bottom: 2px solid var(--border);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .grid-2 {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 24px;
+    }
+    .grid-4 {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 20px;
+    }
+    .card {
+      background: var(--card-bg);
+      border-radius: 24px;
+      padding: 24px;
+      border: 1px solid var(--border);
+      box-shadow: 0 10px 30px rgba(45, 49, 66, 0.04);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      transition: transform 0.25s ease, box-shadow 0.25s ease;
+    }
+    .card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 16px 36px rgba(45, 49, 66, 0.08);
+    }
+    .card-dark {
+      background: var(--dark-canvas);
+      border: 1px solid rgba(255,255,255,0.08);
+      color: #FFFFFF;
+    }
+    .card-dark h3 {
+      color: #FFFFFF !important;
+    }
+    .card-dark p {
+      color: #A0A7BD !important;
+    }
+    .preview-box {
+      width: 100%;
+      height: 160px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      background: #FAF8F2;
+      border-radius: 18px;
+      margin-bottom: 16px;
+    }
+    .preview-box-dark {
+      background: #0E1015;
+    }
+    .preview-box img {
+      max-width: 100%;
+      max-height: 100%;
+      height: auto;
+    }
+    .card h3 {
+      font-size: 17px;
+      font-weight: 700;
+      margin-bottom: 4px;
+      align-self: flex-start;
+    }
+    .card p {
+      font-size: 13px;
+      color: var(--text-muted);
+      align-self: flex-start;
+      margin-bottom: 12px;
+    }
+    .file-path {
+      font-family: monospace;
+      font-size: 11px;
+      background: rgba(45, 49, 66, 0.06);
+      padding: 4px 8px;
+      border-radius: 6px;
+      align-self: flex-start;
+      word-break: break-all;
+    }
+    .card-dark .file-path {
+      background: rgba(255,255,255,0.1);
+      color: #E2E8F0;
+    }
+    .palette-strip {
+      display: flex;
+      gap: 12px;
+      margin-top: 24px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+    .chip {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: #FFFFFF;
+      padding: 9px 16px;
+      border-radius: 14px;
+      border: 1px solid var(--border);
+      font-size: 13px;
+      font-weight: 700;
+    }
+    .dot {
+      width: 20px;
+      height: 20px;
+      border-radius: 6px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <span class="badge-tag">📦 Brand Identity Vector Kit</span>
+      <h1>hanvisuals</h1>
+      <p class="lead">Paket aset vektor lengkap (.SVG) dengan standar kebutuhan desainer grafis & developer: format horizontal, stacked vertikal, standalone icon, dan wordmark dalam berbagai kondisi background & warna.</p>
+
+      <div class="palette-strip">
+        <div class="chip"><span class="dot" style="background:#FFDC56"></span> #FFDC56 Sunshine</div>
+        <div class="chip"><span class="dot" style="background:#FA9F1B"></span> #FA9F1B Tangerine</div>
+        <div class="chip"><span class="dot" style="background:#51B8B9"></span> #51B8B9 Turquoise</div>
+        <div class="chip"><span class="dot" style="background:#FA7C83"></span> #FA7C83 Flamingo</div>
+        <div class="chip"><span class="dot" style="background:#EA4C56"></span> #EA4C56 Crimson</div>
+        <div class="chip" style="opacity:0.8"><span class="dot" style="background:#2D3142"></span> #2D3142 Cozy Slate</div>
+      </div>
+    </header>
+
+    <!-- 01 PRIMARY HORIZONTAL -->
+    <div class="section-title">
+      01. Primary Horizontal Lockups (Navbar, Header Web & Letterhead)
+    </div>
+    <div class="grid-2">
+      <div class="card">
+        <div class="preview-box">
+          <img src="01_primary_horizontal/hanvisuals_horizontal_fullcolor_light.svg" alt="Horizontal Full Color Light">
+        </div>
+        <h3>Full Color (Light Canvas)</h3>
+        <p>Warna resmi 5 segmen + teks Cozy Slate untuk latar putih/terang.</p>
+        <span class="file-path">01_primary_horizontal/hanvisuals_horizontal_fullcolor_light.svg</span>
+      </div>
+
+      <div class="card card-dark">
+        <div class="preview-box preview-box-dark">
+          <img src="01_primary_horizontal/hanvisuals_horizontal_fullcolor_dark.svg" alt="Horizontal Full Color Dark">
+        </div>
+        <h3>Full Color (Dark Canvas)</h3>
+        <p>Warna resmi 5 segmen + teks Pure White untuk latar gelap/video.</p>
+        <span class="file-path">01_primary_horizontal/hanvisuals_horizontal_fullcolor_dark.svg</span>
+      </div>
+
+      <div class="card">
+        <div class="preview-box">
+          <img src="01_primary_horizontal/hanvisuals_horizontal_mono_black.svg" alt="Horizontal Monochrome Black">
+        </div>
+        <h3>Monochrome Slate / Black</h3>
+        <p>Satu warna solid untuk cetak faktur, stempel, sablon 1 warna, laser cut.</p>
+        <span class="file-path">01_primary_horizontal/hanvisuals_horizontal_mono_black.svg</span>
+      </div>
+
+      <div class="card card-dark">
+        <div class="preview-box preview-box-dark">
+          <img src="01_primary_horizontal/hanvisuals_horizontal_mono_white.svg" alt="Horizontal Monochrome White">
+        </div>
+        <h3>Monochrome White (Knockout)</h3>
+        <p>Putih 100% transparan untuk watermark video dan foto sinematik.</p>
+        <span class="file-path">01_primary_horizontal/hanvisuals_horizontal_mono_white.svg</span>
+      </div>
+    </div>
+
+    <!-- 02 STACKED VERTICAL -->
+    <div class="section-title">
+      02. Stacked / Vertical Lockups (Square Banners, T-Shirt, Merch & Splash Screens)
+    </div>
+    <div class="grid-4">
+      <div class="card">
+        <div class="preview-box">
+          <img src="02_stacked_vertical/hanvisuals_stacked_fullcolor_light.svg" alt="Stacked Light">
+        </div>
+        <h3>Full Color Light</h3>
+        <p>Format vertikal tengah.</p>
+        <span class="file-path">02_stacked_vertical/...light.svg</span>
+      </div>
+
+      <div class="card card-dark">
+        <div class="preview-box preview-box-dark">
+          <img src="02_stacked_vertical/hanvisuals_stacked_fullcolor_dark.svg" alt="Stacked Dark">
+        </div>
+        <h3>Full Color Dark</h3>
+        <p>Format vertikal latar gelap.</p>
+        <span class="file-path">02_stacked_vertical/...dark.svg</span>
+      </div>
+
+      <div class="card">
+        <div class="preview-box">
+          <img src="02_stacked_vertical/hanvisuals_stacked_mono_black.svg" alt="Stacked Black">
+        </div>
+        <h3>Mono Black</h3>
+        <p>Format vertikal hitam.</p>
+        <span class="file-path">02_stacked_vertical/...mono_black.svg</span>
+      </div>
+
+      <div class="card card-dark">
+        <div class="preview-box preview-box-dark">
+          <img src="02_stacked_vertical/hanvisuals_stacked_mono_white.svg" alt="Stacked White">
+        </div>
+        <h3>Mono White</h3>
+        <p>Format vertikal putih.</p>
+        <span class="file-path">02_stacked_vertical/...mono_white.svg</span>
+      </div>
+    </div>
+
+    <!-- 03 LOGOMARK ICON -->
+    <div class="section-title">
+      03. Standalone Logomarks (App Icon, Favicon & Avatar Profil IG/TikTok)
+    </div>
+    <div class="grid-4">
+      <div class="card">
+        <div class="preview-box">
+          <img src="03_logomark_icon/hanvisuals_icon_fullcolor_light.svg" alt="Icon Light">
+        </div>
+        <h3>Icon Full Color (Light)</h3>
+        <p>Favicon & avatar terang.</p>
+        <span class="file-path">03_logomark_icon/...light.svg</span>
+      </div>
+
+      <div class="card card-dark">
+        <div class="preview-box preview-box-dark">
+          <img src="03_logomark_icon/hanvisuals_icon_fullcolor_dark.svg" alt="Icon Dark">
+        </div>
+        <h3>Icon Full Color (Dark)</h3>
+        <p>Avatar & app icon gelap.</p>
+        <span class="file-path">03_logomark_icon/...dark.svg</span>
+      </div>
+
+      <div class="card">
+        <div class="preview-box">
+          <img src="03_logomark_icon/hanvisuals_icon_mono_black.svg" alt="Icon Mono Black">
+        </div>
+        <h3>Icon Mono Black</h3>
+        <p>Simbol hitam transparan.</p>
+        <span class="file-path">03_logomark_icon/...mono_black.svg</span>
+      </div>
+
+      <div class="card card-dark">
+        <div class="preview-box preview-box-dark">
+          <img src="03_logomark_icon/hanvisuals_icon_mono_white.svg" alt="Icon Mono White">
+        </div>
+        <h3>Icon Mono White</h3>
+        <p>Simbol putih transparan.</p>
+        <span class="file-path">03_logomark_icon/...mono_white.svg</span>
+      </div>
+    </div>
+
+    <!-- 04 WORDMARK -->
+    <div class="section-title">
+      04. Standalone Wordmarks (Typography Only)
+    </div>
+    <div class="grid-2">
+      <div class="card">
+        <div class="preview-box">
+          <img src="04_wordmark/hanvisuals_wordmark_dark.svg" alt="Wordmark Dark">
+        </div>
+        <h3>Wordmark (Cozy Slate #2D3142)</h3>
+        <p>Tipografi tunggal untuk footer bersih atau header minimalis di kanvas terang.</p>
+        <span class="file-path">04_wordmark/hanvisuals_wordmark_dark.svg</span>
+      </div>
+
+      <div class="card card-dark">
+        <div class="preview-box preview-box-dark">
+          <img src="04_wordmark/hanvisuals_wordmark_white.svg" alt="Wordmark White">
+        </div>
+        <h3>Wordmark (Pure White #FFFFFF)</h3>
+        <p>Tipografi tunggal putih untuk footer gelap atau credit roll video.</p>
+        <span class="file-path">04_wordmark/hanvisuals_wordmark_white.svg</span>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="100%" height="100%">
+  <defs>
+    <filter id="iconGlowD" x="-15%" y="-15%" width="130%" height="130%">
+      <feDropShadow dx="0" dy="16" stdDeviation="22" flood-color="#FA9F1B" flood-opacity="0.22"/>
+    </filter>
+    <clipPath id="playClipD">
+      <path d="M 180 92 
+               L 380 236 
+               C 398 249, 398 263, 380 276 
+               L 180 420 
+               C 160 434, 148 426, 148 402 
+               L 148 110 
+               C 148 86, 160 78, 180 92 Z"/>
+    </clipPath>
+  </defs>
+
+  <!-- Dark Background Container -->
+  <rect width="512" height="512" rx="112" fill="#15171E"/>
+
+  <!-- 5-Color Segmented Play Triangle -->
+  <g filter="url(#iconGlowD)">
+    <g clip-path="url(#playClipD)">
+      <path d="M 140 180 L 140 332 L 215 285 L 215 227 Z" fill="#51B8B9"/>
+      <path d="M 140 70 L 265 70 L 215 227 L 140 180 Z" fill="#FFDC56"/>
+      <path d="M 265 70 L 410 256 L 315 256 L 215 227 Z" fill="#FA9F1B"/>
+      <path d="M 140 442 L 265 442 L 215 285 L 140 332 Z" fill="#FA7C83"/>
+      <path d="M 265 442 L 410 256 L 315 256 L 215 285 Z" fill="#EA4C56"/>
+    </g>
+
+    <!-- Inner Dark Void (Matching Background) -->
+    <path d="M 224 186 
+             L 298 246 
+             C 306 252, 306 260, 298 266 
+             L 224 326 
+             C 216 332, 210 328, 210 316 
+             L 210 196 
+             C 210 184, 216 180, 224 186 Z" 
+          fill="#15171E"/>
+  </g>
+</svg>

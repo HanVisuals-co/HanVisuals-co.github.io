@@ -1,0 +1,44 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400" width="100%" height="100%">
+  <defs>
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@700;800&amp;display=swap');
+      .stk-title-mw {
+        font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+        font-weight: 800;
+        font-size: 42px;
+        fill: #FFFFFF;
+        letter-spacing: -1px;
+      }
+      .stk-sub-mw {
+        font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+        font-weight: 700;
+        font-size: 11px;
+        fill: #FFFFFF;
+        opacity: 0.8;
+        letter-spacing: 3px;
+      }
+    </style>
+  </defs>
+
+  <!-- Centered Monochrome White Mark -->
+  <path fill-rule="evenodd" clip-rule="evenodd" fill="#FFFFFF" d="
+    M 150 54 
+    L 270 140 
+    C 281 148, 281 154, 270 162 
+    L 150 248 
+    C 139 256, 131 250, 131 236 
+    L 131 66 
+    C 131 52, 139 46, 150 54 Z
+    M 181 119 
+    C 177 116, 173 119, 173 125 
+    L 173 179 
+    C 173 185, 177 188, 181 185 
+    L 223 156 
+    C 227 153, 227 151, 223 148 
+    L 181 119 Z
+  "/>
+
+  <!-- Centered Typography (Bottom) -->
+  <text x="200" y="320" text-anchor="middle" class="stk-title-mw">hanvisuals</text>
+  <text x="200" y="352" text-anchor="middle" class="stk-sub-mw">VISUAL STORYTELLING &amp; MOTION LAB</text>
+</svg>
