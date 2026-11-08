@@ -1,0 +1,159 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    background-color: #15171E;
+    color: #FDFCF9;
+  }
+
+  body {
+    background-color: #15171E;
+    color: #FDFCF9;
+    overflow-x: hidden;
+  }
+
+  a[href],
+  button:not(:disabled),
+  summary,
+  select:not(:disabled),
+  label[for],
+  [role="button"]:not([aria-disabled="true"]),
+  [role="tab"]:not([aria-disabled="true"]),
+  [role="switch"]:not([aria-disabled="true"]) {
+    cursor: pointer;
+  }
+
+  button:disabled,
+  select:disabled,
+  input:disabled,
+  textarea:disabled,
+  [aria-disabled="true"] {
+    cursor: not-allowed;
+  }
+
+  :focus-visible {
+    outline: 2px solid #51B8B9;
+    outline-offset: 3px;
+  }
+}
+
+.text-fluid-h1 {
+  font-size: clamp(2.15rem, 4.2vw + 1rem, 4rem);
+  line-height: 1.08;
+  letter-spacing: -0.03em;
+}
+
+.text-fluid-h2 {
+  font-size: clamp(1.75rem, 2.8vw + 0.85rem, 2.85rem);
+  line-height: 1.14;
+  letter-spacing: -0.02em;
+}
+
+.text-fluid-h3 {
+  font-size: clamp(1.2rem, 1.2vw + 0.85rem, 1.55rem);
+  line-height: 1.25;
+  letter-spacing: -0.015em;
+}
+
+/* GPU-composited ambient orb moved via translate3d (zero repaint during scroll/move) */
+.ambient-orb {
+  width: 680px;
+  height: 680px;
+  border-radius: 9999px;
+  background: radial-gradient(
+    circle,
+    rgba(81, 184, 185, 0.085) 0%,
+    rgba(45, 49, 66, 0.13) 44%,
+    transparent 74%
+  );
+  will-change: transform;
+}
+
+@media (hover: none) and (pointer: coarse) {
+  .ambient-orb {
+    transform: translate3d(calc(50vw - 340px), -120px, 0) !important;
+  }
+}
+
+/* 3D Perspective Card with zero-repaint GPU layers */
+.card-3d {
+  position: relative;
+  border-radius: 1.25rem;
+  background: linear-gradient(
+    180deg,
+    rgba(253, 252, 249, 0.11) 0%,
+    rgba(253, 252, 249, 0.03) 100%
+  );
+  padding: 1px;
+  will-change: transform;
+  box-shadow: 0 18px 40px -18px rgba(7, 8, 12, 0.78);
+  transition: background 0.3s ease;
+}
+
+.card-3d:hover {
+  background: linear-gradient(
+    165deg,
+    rgba(81, 184, 185, 0.5) 0%,
+    rgba(253, 252, 249, 0.12) 45%,
+    rgba(253, 252, 249, 0.04) 100%
+  );
+}
+
+/* Static soft backlight layer (opacity-only transition, no filter blur repaint) */
+.card-3d-glow {
+  position: absolute;
+  inset: -14px;
+  border-radius: 1.75rem;
+  background: radial-gradient(
+    circle at 50% 35%,
+    rgba(81, 184, 185, 0.18) 0%,
+    rgba(45, 49, 66, 0.08) 52%,
+    transparent 74%
+  );
+  opacity: 0;
+  pointer-events: none;
+  z-index: -1;
+  will-change: opacity;
+}
+
+/* Matte dark slate interior surface */
+.card-3d-inner {
+  position: relative;
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+  border-radius: calc(1.25rem - 1px);
+  background: linear-gradient(180deg, #1D202C 0%, #171922 100%);
+}
+
+/* GPU-translated inner spotlight orb (no CSS variable or gradient repaint) */
+.card-3d-spot {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 440px;
+  height: 440px;
+  border-radius: 9999px;
+  background: radial-gradient(
+    circle,
+    rgba(81, 184, 185, 0.09) 0%,
+    rgba(81, 184, 185, 0.03) 42%,
+    transparent 70%
+  );
+  opacity: 0;
+  pointer-events: none;
+  will-change: transform, opacity;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
