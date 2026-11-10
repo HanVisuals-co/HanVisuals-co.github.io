@@ -3,13 +3,15 @@
 import React from "react";
 import { useLanguage } from "@/context/LanguageContext";
 import TiltCard from "@/components/TiltCard";
-import { PrismExternalGlyph } from "@/components/BrandLogos";
+import {
+  PrismExternalGlyph,
+  PrismArrowRightGlyph,
+} from "@/components/BrandLogos";
 
-export default function WebCard({ item }) {
-  const { lang } = useLanguage();
+export default function WebCard({ item, onSelect }) {
+  const { lang, t } = useLanguage();
 
   const title = lang === "id" ? item.titleId : item.titleEn;
-  const summary = lang === "id" ? item.summaryId : item.summaryEn;
   const categoryLabel =
     lang === "id" ? item.categoryLabelId : item.categoryLabelEn;
   const externalLabel =
@@ -17,7 +19,20 @@ export default function WebCard({ item }) {
 
   return (
     <TiltCard intensity={3.8}>
-      <div className="p-6 sm:p-7 h-full flex flex-col justify-between space-y-5">
+      <div
+        onClick={onSelect}
+        role="button"
+        tabIndex={0}
+        onKeyDown={(e) => {
+          if (e.key === "Enter" || e.key === " ") {
+            e.preventDefault();
+            onSelect && onSelect();
+          }
+        }}
+        aria-haspopup="dialog"
+        aria-label={`${title}: ${t.showcase.openModalHint}`}
+        className="p-6 sm:p-7 h-full flex flex-col justify-between space-y-5 cursor-pointer group text-left focus:outline-none focus-visible:ring-2 focus-visible:ring-han-turquoise rounded-2xl"
+      >
         <div className="space-y-4">
           <div className="flex items-center justify-between gap-3 text-xs text-slate-300">
             <span className="inline-flex items-center gap-2 font-semibold">
@@ -31,12 +46,7 @@ export default function WebCard({ item }) {
             <span className="text-slate-400">{categoryLabel}</span>
           </div>
 
-          <a
-            href={item.externalUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="block rounded-xl bg-[#12141B] overflow-hidden border border-white/[0.06] group"
-          >
+          <div className="rounded-xl bg-[#12141B] overflow-hidden border border-white/[0.06]">
             <div className="flex items-center justify-between gap-3 px-3.5 py-2 bg-[#161922] border-b border-white/[0.06]">
               <span className="text-[11px] font-mono text-slate-400 truncate">
                 {item.displayUrl}
@@ -51,14 +61,15 @@ export default function WebCard({ item }) {
                 src={item.thumbnail}
                 alt={title}
                 loading="lazy"
-                className="w-full h-full object-cover opacity-90 transition-transform duration-500 group-hover:scale-[1.02]"
+                className="w-full h-full object-cover opacity-90 transition-transform duration-500 group-hover:scale-[1.03]"
               />
             </div>
-          </a>
+          </div>
 
-          <div className="space-y-2 pt-1">
-            <h3 className="text-fluid-h3 font-bold text-han-light">{title}</h3>
-            <p className="text-sm text-slate-300 leading-relaxed">{summary}</p>
+          <div className="space-y-1.5 pt-1">
+            <h3 className="text-fluid-h3 font-bold text-han-light group-hover:text-han-turquoise transition-colors">
+              {title}
+            </h3>
           </div>
         </div>
 
@@ -74,15 +85,12 @@ export default function WebCard({ item }) {
             ))}
           </ul>
 
-          <a
-            href={item.externalUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="min-h-[40px] inline-flex items-center gap-1.5 text-sm font-bold text-han-turquoise hover:text-han-light transition-colors"
-          >
-            <span>{externalLabel}</span>
-            <PrismExternalGlyph className="w-4 h-4" />
-          </a>
+          <div className="flex items-center gap-2">
+            <span className="min-h-[40px] inline-flex items-center gap-1.5 text-xs sm:text-sm font-bold text-slate-300 group-hover:text-han-turquoise transition-colors">
+              <span>{t.showcase.viewDetails}</span>
+              <PrismArrowRightGlyph className="w-4 h-4" />
+            </span>
+          </div>
         </div>
       </div>
     </TiltCard>

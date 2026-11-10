@@ -1,11 +1,10 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { useLanguage } from "@/context/LanguageContext";
 import {
   pricingCategories,
-  complexityFactors,
   paymentTerms,
 } from "@/data/pricingData";
 import AmbientCursor from "@/components/AmbientCursor";
@@ -15,11 +14,37 @@ import TiltCard from "@/components/TiltCard";
 import {
   PrismCheckGlyph,
   PrismWhatsAppGlyph,
+  PrismArrowRightGlyph,
+  PrismCloseGlyph,
 } from "@/components/BrandLogos";
 
 export default function PricingPage() {
   const { lang, t } = useLanguage();
   const [activeCategory, setActiveCategory] = useState("all");
+  const [expandedPkgId, setExpandedPkgId] = useState(null);
+
+  useEffect(() => {
+    if (!expandedPkgId) return;
+
+    const handlePointerDown = (e) => {
+      if (!e.target.closest("[data-pricing-card]")) {
+        setExpandedPkgId(null);
+      }
+    };
+
+    const handleKeyDown = (e) => {
+      if (e.key === "Escape") {
+        setExpandedPkgId(null);
+      }
+    };
+
+    document.addEventListener("pointerdown", handlePointerDown);
+    window.addEventListener("keydown", handleKeyDown);
+    return () => {
+      document.removeEventListener("pointerdown", handlePointerDown);
+      window.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [expandedPkgId]);
 
   const filters = [
     { id: "all", label: t.pricingPage.filterAll },
@@ -32,6 +57,10 @@ export default function PricingPage() {
   const visibleCategories = pricingCategories.filter((cat) =>
     activeCategory === "all" ? true : cat.id === activeCategory
   );
+
+  const handleToggle = (pkgId) => {
+    setExpandedPkgId((prev) => (prev === pkgId ? null : pkgId));
+  };
 
   return (
     <div className="relative min-h-screen bg-han-dark text-han-light">
@@ -56,7 +85,7 @@ export default function PricingPage() {
               href="/"
               className="min-h-[40px] inline-flex items-center text-xs sm:text-sm font-bold text-slate-300 hover:text-han-turquoise transition-colors"
             >
-              ← {t.pricingPage.backHome}
+              &larr; {t.pricingPage.backHome}
             </Link>
           </div>
 
@@ -66,19 +95,6 @@ export default function PricingPage() {
             </h1>
             <p className="text-base sm:text-lg text-slate-300 leading-relaxed">
               {t.pricingPage.subtitle}
-            </p>
-          </div>
-
-          <div className="rounded-2xl bg-[#181B24] border border-han-turquoise/35 p-5 sm:p-6 space-y-2">
-            <div className="flex items-center gap-2 text-xs sm:text-sm font-extrabold text-han-turquoise uppercase tracking-wider">
-              <span
-                className="w-2 h-2 rounded-full bg-han-turquoise"
-                aria-hidden="true"
-              />
-              <span>{t.pricingPage.principleTitle}</span>
-            </div>
-            <p className="text-xs sm:text-sm text-slate-200 leading-relaxed">
-              {t.pricingPage.principleDesc}
             </p>
           </div>
 
@@ -93,7 +109,10 @@ export default function PricingPage() {
                 <button
                   key={f.id}
                   type="button"
-                  onClick={() => setActiveCategory(f.id)}
+                  onClick={() => {
+                    setActiveCategory(f.id);
+                    setExpandedPkgId(null);
+                  }}
                   aria-pressed={active}
                   className={`min-h-[42px] px-4 py-2 rounded-full text-xs sm:text-sm font-bold transition-all ${
                     active
@@ -108,10 +127,10 @@ export default function PricingPage() {
           </div>
         </div>
 
+        {/* Pricing Category Sections with in-place expanding cards */}
         <div className="space-y-16">
           {visibleCategories.map((cat) => {
             const catLabel = lang === "id" ? cat.labelId : cat.labelEn;
-            const catDesc = lang === "id" ? cat.descId : cat.descEn;
 
             return (
               <section
@@ -119,27 +138,41 @@ export default function PricingPage() {
                 aria-labelledby={`cat-heading-${cat.id}`}
                 className="space-y-6"
               >
-                <div className="space-y-1.5 border-b border-white/[0.08] pb-4">
-                  <div className="flex items-center gap-2.5">
-                    <span
-                      className="w-3 h-3 rounded-full shrink-0"
-                      style={{ backgroundColor: cat.dotColor }}
-                      aria-hidden="true"
-                    />
-                    <h2
-                      id={`cat-heading-${cat.id}`}
-                      className="text-fluid-h2 font-extrabold text-han-light"
-                    >
-                      {catLabel}
-                    </h2>
-                  </div>
-                  <p className="text-sm sm:text-base text-slate-300">
-                    {catDesc}
-                  </p>
+                <div className="flex items-center gap-2.5 border-b border-white/[0.08] pb-4">
+                  <span
+                    className="w-3 h-3 rounded-full shrink-0"
+                    style={{ backgroundColor: cat.dotColor }}
+                    aria-hidden="true"
+                  />
+                  <h2
+                    id={`cat-heading-${cat.id}`}
+                    className="text-fluid-h2 font-extrabold text-han-light"
+                  >
+                    {catLabel}
+                  </h2>
                 </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                  {cat.packages.map((pkg) => {
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 relative">
+                  {cat.packages.map((pkg, idx) => {
+                    const isExpanded = expandedPkgId === pkg.id;
+                    const isDimmed = expandedPkgId !== null && !isExpanded;
+
+                    // 3-Column Expansion Origin:
+                    // Column 0: expands rightwards (lg:origin-top-left)
+                    // Column 1: expands to both sides (lg:origin-top)
+                    // Column 2: expands leftwards (lg:origin-top-right)
+                    const desktopOrigin =
+                      idx % 3 === 0
+                        ? "lg:origin-top-left"
+                        : idx % 3 === 1
+                        ? "lg:origin-top"
+                        : "lg:origin-top-right";
+
+                    const tabletOrigin =
+                      idx % 2 === 0
+                        ? "md:origin-top-left"
+                        : "md:origin-top-right";
+
                     const subGroup =
                       lang === "id" ? pkg.subGroupId : pkg.subGroupEn;
                     const tierName = lang === "id" ? pkg.tierId : pkg.tierEn;
@@ -159,84 +192,149 @@ export default function PricingPage() {
                     );
 
                     return (
-                      <TiltCard key={pkg.id} intensity={3.2}>
-                        <div className="p-6 sm:p-7 h-full flex flex-col justify-between space-y-6">
-                          <div className="space-y-4">
-                            <div className="flex items-center justify-between gap-2">
-                              <span className="inline-flex items-center gap-2 text-[11px] font-semibold text-slate-300">
-                                <span
-                                  className="w-2 h-2 rounded-full shrink-0"
-                                  style={{ backgroundColor: cat.dotColor }}
-                                  aria-hidden="true"
-                                />
-                                <span className="truncate">{subGroup}</span>
-                              </span>
-
-                              {pkg.isPopular && (
-                                <span className="rounded-full bg-han-turquoise/15 border border-han-turquoise/40 px-2.5 py-0.5 text-[11px] font-bold text-han-turquoise shrink-0">
-                                  {t.pricingPage.popularBadge}
+                      <div
+                        key={pkg.id}
+                        data-pricing-card
+                        className={`transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] ${
+                          isExpanded
+                            ? `z-30 relative scale-[1.02] md:scale-[1.05] lg:scale-[1.08] ${tabletOrigin} ${desktopOrigin} origin-top`
+                            : "z-10 relative scale-100"
+                        }`}
+                      >
+                        <TiltCard
+                          className="h-full"
+                          intensity={3.2}
+                          disabled={isExpanded}
+                        >
+                          <div
+                            className={`p-6 sm:p-7 h-full flex flex-col justify-between space-y-6 rounded-2xl transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] ${
+                              isExpanded
+                                ? "bg-[#191D28] ring-1 ring-han-turquoise/50 shadow-[0_30px_70px_rgba(0,0,0,0.9)]"
+                                : "bg-[#151720] hover:border-white/20"
+                            }`}
+                          >
+                            <div className="space-y-4">
+                              <div className="flex items-center justify-between gap-2">
+                                <span className="inline-flex items-center gap-2 text-[11px] font-semibold text-slate-300">
+                                  <span
+                                    className="w-2 h-2 rounded-full shrink-0"
+                                    style={{ backgroundColor: cat.dotColor }}
+                                    aria-hidden="true"
+                                  />
+                                  <span className="truncate">{subGroup}</span>
                                 </span>
-                              )}
-                            </div>
 
-                            <div className="space-y-1.5">
-                              <h3 className="text-lg sm:text-xl font-bold text-han-light">
-                                {tierName}
-                              </h3>
-                              <p className="text-xs sm:text-sm text-slate-300 leading-relaxed">
-                                {summaryText}
-                              </p>
-                            </div>
+                                {pkg.isPopular && (
+                                  <span className="rounded-full bg-han-turquoise/15 border border-han-turquoise/40 px-2.5 py-0.5 text-[11px] font-bold text-han-turquoise shrink-0">
+                                    {t.pricingPage.popularBadge}
+                                  </span>
+                                )}
+                              </div>
 
-                            <div className="rounded-xl bg-[#13151C] border border-white/[0.06] p-4 space-y-1.5">
-                              <span className="block text-base sm:text-lg font-extrabold text-han-turquoise">
-                                {priceText}
-                              </span>
-                              <span className="block text-xs text-slate-400">
-                                {unitText}
-                              </span>
-                              {retainerText && (
-                                <span className="block pt-1.5 border-t border-white/[0.06] text-xs font-semibold text-slate-200">
-                                  {retainerText}
+                              <div className="space-y-1.5">
+                                <h3 className="text-lg sm:text-xl font-bold text-han-light">
+                                  {tierName}
+                                </h3>
+                              </div>
+
+                              <div className="rounded-xl bg-[#13151C] border border-white/[0.06] p-4 space-y-1.5">
+                                <span className="block text-base sm:text-lg font-extrabold text-han-turquoise">
+                                  {priceText}
                                 </span>
-                              )}
-                            </div>
+                                <span className="block text-xs text-slate-400">
+                                  {unitText}
+                                </span>
+                                {retainerText && (
+                                  <span className="block pt-1.5 border-t border-white/[0.06] text-xs font-semibold text-slate-200">
+                                    {retainerText}
+                                  </span>
+                                )}
+                              </div>
 
-                            <div className="space-y-2.5 pt-1">
-                              <span className="block text-xs font-bold uppercase tracking-wider text-slate-400">
-                                {t.pricingPage.includesLabel}
-                              </span>
-                              <ul className="space-y-2">
-                                {featuresList.map((feat) => (
-                                  <li
-                                    key={feat}
-                                    className="flex items-start gap-2.5 text-xs sm:text-sm text-slate-200"
+                              {/* In-Place Expanded Details Area */}
+                              <div
+                                className={`overflow-hidden transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] ${
+                                  isExpanded
+                                    ? "max-h-[850px] opacity-100 pt-3 border-t border-white/[0.08] space-y-4"
+                                    : "max-h-0 opacity-0 pointer-events-none"
+                                }`}
+                              >
+                                <div className="space-y-1.5">
+                                  <h4 className="text-[11px] font-bold uppercase tracking-wider text-slate-400">
+                                    {t.pricingPage.packageOverview}
+                                  </h4>
+                                  <p className="text-xs sm:text-sm text-slate-200 leading-relaxed">
+                                    {summaryText}
+                                  </p>
+                                </div>
+
+                                <div className="space-y-2">
+                                  <h4 className="text-[11px] font-bold uppercase tracking-wider text-slate-400">
+                                    {t.pricingPage.includesLabel}
+                                  </h4>
+                                  <ul className="space-y-2">
+                                    {featuresList.map((feat) => (
+                                      <li
+                                        key={feat}
+                                        className="flex items-start gap-2.5 rounded-lg bg-[#12141B] border border-white/[0.05] p-2.5 text-xs font-medium text-slate-200"
+                                      >
+                                        <PrismCheckGlyph className="w-3.5 h-3.5 text-han-turquoise shrink-0 mt-0.5" />
+                                        <span>{feat}</span>
+                                      </li>
+                                    ))}
+                                  </ul>
+                                </div>
+
+                                <div className="pt-2">
+                                  <a
+                                    href={`https://wa.me/6281334535073?text=${waMessage}`}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="w-full min-h-[44px] inline-flex items-center justify-center gap-2 rounded-xl bg-han-turquoise hover:bg-han-light px-4 py-2 text-xs sm:text-sm font-extrabold text-han-dark transition-colors"
                                   >
-                                    <PrismCheckGlyph className="w-4 h-4 text-han-turquoise shrink-0 mt-0.5" />
-                                    <span>{feat}</span>
-                                  </li>
-                                ))}
-                              </ul>
+                                    <PrismWhatsAppGlyph className="w-4 h-4" />
+                                    <span>{t.pricingPage.orderWaBtn}</span>
+                                  </a>
+                                </div>
+                              </div>
+                            </div>
+
+                            {/* Card Bottom: Toggle Trigger Button */}
+                            <div className="pt-4 border-t border-white/[0.06] flex items-center justify-between gap-2">
+                              <button
+                                type="button"
+                                onClick={() => handleToggle(pkg.id)}
+                                aria-expanded={isExpanded}
+                                aria-label={`${tierName}: ${
+                                  isExpanded
+                                    ? t.pricingPage.closeDetails
+                                    : t.pricingPage.viewDetails
+                                }`}
+                                className="w-full min-h-[44px] inline-flex items-center justify-between text-xs sm:text-sm font-bold text-slate-300 hover:text-han-turquoise transition-colors"
+                              >
+                                <span>
+                                  {isExpanded
+                                    ? t.pricingPage.closeDetails
+                                    : t.pricingPage.viewDetails}
+                                </span>
+                                <span
+                                  className={`min-h-[36px] min-w-[36px] inline-flex items-center justify-center rounded-lg border border-white/[0.08] transition-all duration-300 ${
+                                    isExpanded
+                                      ? "bg-han-turquoise text-han-dark rotate-90"
+                                      : "bg-[#13151C] text-slate-300 hover:bg-han-turquoise hover:text-han-dark"
+                                  }`}
+                                >
+                                  {isExpanded ? (
+                                    <PrismCloseGlyph className="w-4 h-4" />
+                                  ) : (
+                                    <PrismArrowRightGlyph className="w-4 h-4" />
+                                  )}
+                                </span>
+                              </button>
                             </div>
                           </div>
-
-                          <div className="pt-4 border-t border-white/[0.06]">
-                            <a
-                              href={`https://wa.me/6281334535073?text=${waMessage}`}
-                              target="_blank"
-                              rel="noopener noreferrer"
-                              className={`w-full min-h-[46px] inline-flex items-center justify-center gap-2 rounded-xl px-5 py-2.5 text-xs sm:text-sm font-extrabold transition-all ${
-                                pkg.isPopular
-                                  ? "bg-han-turquoise text-han-dark hover:bg-han-light"
-                                  : "bg-[#13151C] text-han-light hover:bg-han-turquoise hover:text-han-dark border border-white/10"
-                              }`}
-                            >
-                              <PrismWhatsAppGlyph className="w-4 h-4" />
-                              <span>{t.pricingPage.orderWaBtn}</span>
-                            </a>
-                          </div>
-                        </div>
-                      </TiltCard>
+                        </TiltCard>
+                      </div>
                     );
                   })}
                 </div>
@@ -245,110 +343,133 @@ export default function PricingPage() {
           })}
         </div>
 
-        {/* Complexity Multipliers & Payment Terms */}
-        <section className="grid grid-cols-1 lg:grid-cols-12 gap-6 pt-4">
-          <div className="lg:col-span-7 rounded-2xl bg-[#181B24]/95 border border-white/[0.08] p-6 sm:p-8 space-y-6">
-            <div className="space-y-2">
-              <h2 className="text-xl sm:text-2xl font-extrabold text-han-light">
-                {t.pricingPage.multipliersTitle}
-              </h2>
-              <div className="rounded-xl bg-[#12141B] border border-han-turquoise/30 px-4 py-2.5 font-mono text-xs sm:text-sm font-bold text-han-turquoise">
-                {t.pricingPage.multipliersFormula}
-              </div>
-            </div>
-
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
-              {complexityFactors.map((factor) => {
-                const fTitle =
-                  lang === "id" ? factor.titleId : factor.titleEn;
-                const fTiers =
-                  lang === "id" ? factor.tiersId : factor.tiersEn;
-                return (
-                  <div
-                    key={factor.num}
-                    className="rounded-xl bg-[#13151C] border border-white/[0.06] p-4 space-y-2.5"
-                  >
-                    <div className="flex items-center gap-2">
-                      <span className="font-mono text-xs font-extrabold text-han-turquoise">
-                        {factor.num}
-                      </span>
-                      <h3 className="text-sm font-bold text-han-light">
-                        {fTitle}
-                      </h3>
-                    </div>
-                    <ul className="space-y-1.5 text-xs text-slate-300 leading-relaxed">
-                      {fTiers.map((tier) => (
-                        <li key={tier}>• {tier}</li>
-                      ))}
-                    </ul>
-                  </div>
-                );
-              })}
-            </div>
+        {/* Payment Terms & Milestones */}
+        <section className="space-y-6 pt-4">
+          <div className="space-y-2">
+            <h2 className="text-xl sm:text-2xl font-extrabold text-han-light">
+              {t.pricingPage.termsTitle}
+            </h2>
+            <p className="text-xs sm:text-sm text-slate-300 max-w-2xl leading-relaxed">
+              {t.pricingPage.termsSubtitle}
+            </p>
           </div>
 
-          <div className="lg:col-span-5 rounded-2xl bg-[#181B24]/95 border border-white/[0.08] p-6 sm:p-8 flex flex-col justify-between space-y-6">
-            <div className="space-y-5">
-              <h2 className="text-xl sm:text-2xl font-extrabold text-han-light">
-                {t.pricingPage.termsTitle}
-              </h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {/* Video Services Milestone Card */}
+            <div className="rounded-2xl bg-[#181B24]/95 border border-white/[0.08] p-6 sm:p-7 flex flex-col justify-between space-y-6">
+              <div className="space-y-5">
+                <div className="flex items-center gap-2.5">
+                  <span
+                    className="w-2.5 h-2.5 rounded-full bg-[#FA9F1B]"
+                    aria-hidden="true"
+                  />
+                  <h3 className="text-base sm:text-lg font-bold text-han-light">
+                    {lang === "id"
+                      ? paymentTerms.video.titleId
+                      : paymentTerms.video.titleEn}
+                  </h3>
+                </div>
 
-              <div className="rounded-xl bg-[#13151C] border border-white/[0.06] p-4 space-y-2.5">
-                <h3 className="text-sm font-bold text-han-turquoise">
-                  {lang === "id"
-                    ? paymentTerms.video.titleId
-                    : paymentTerms.video.titleEn}
-                </h3>
-                <ul className="space-y-2 text-xs sm:text-sm text-slate-200">
+                <div className="space-y-3">
                   {(lang === "id"
                     ? paymentTerms.video.stepsId
                     : paymentTerms.video.stepsEn
-                  ).map((step) => (
-                    <li key={step} className="flex items-start gap-2">
-                      <PrismCheckGlyph className="w-4 h-4 text-han-turquoise shrink-0 mt-0.5" />
-                      <span>{step}</span>
-                    </li>
+                  ).map((step, sIdx) => (
+                    <div
+                      key={step}
+                      className="rounded-xl bg-[#13151C] border border-white/[0.06] p-4 flex items-start gap-3.5"
+                    >
+                      <span className="min-h-[26px] min-w-[26px] inline-flex items-center justify-center rounded-lg bg-han-turquoise/15 text-han-turquoise font-mono text-xs font-extrabold shrink-0 mt-0.5">
+                        0{sIdx + 1}
+                      </span>
+                      <p className="text-xs sm:text-sm text-slate-200 leading-relaxed font-medium">
+                        {step}
+                      </p>
+                    </div>
                   ))}
-                </ul>
+                </div>
               </div>
 
-              <div className="rounded-xl bg-[#13151C] border border-white/[0.06] p-4 space-y-2.5">
-                <h3 className="text-sm font-bold text-han-turquoise">
-                  {lang === "id"
-                    ? paymentTerms.web.titleId
-                    : paymentTerms.web.titleEn}
-                </h3>
-                <ul className="space-y-2 text-xs sm:text-sm text-slate-200">
+              <div className="pt-2 border-t border-white/[0.06]">
+                <span className="inline-flex items-center gap-2 text-xs font-semibold text-slate-300">
+                  <PrismCheckGlyph className="w-4 h-4 text-han-turquoise shrink-0" />
+                  <span>
+                    {lang === "id"
+                      ? "Revisi diselesaikan sebelum pelunasan final"
+                      : "Revisions finalized prior to final settlement"}
+                  </span>
+                </span>
+              </div>
+            </div>
+
+            {/* Web & Custom Applications Milestone Card */}
+            <div className="rounded-2xl bg-[#181B24]/95 border border-white/[0.08] p-6 sm:p-7 flex flex-col justify-between space-y-6">
+              <div className="space-y-5">
+                <div className="flex items-center gap-2.5">
+                  <span
+                    className="w-2.5 h-2.5 rounded-full bg-[#51B8B9]"
+                    aria-hidden="true"
+                  />
+                  <h3 className="text-base sm:text-lg font-bold text-han-light">
+                    {lang === "id"
+                      ? paymentTerms.web.titleId
+                      : paymentTerms.web.titleEn}
+                  </h3>
+                </div>
+
+                <div className="space-y-3">
                   {(lang === "id"
                     ? paymentTerms.web.stepsId
                     : paymentTerms.web.stepsEn
-                  ).map((step) => (
-                    <li key={step} className="flex items-start gap-2">
-                      <PrismCheckGlyph className="w-4 h-4 text-han-turquoise shrink-0 mt-0.5" />
-                      <span>{step}</span>
-                    </li>
+                  ).map((step, sIdx) => (
+                    <div
+                      key={step}
+                      className="rounded-xl bg-[#13151C] border border-white/[0.06] p-4 flex items-start gap-3.5"
+                    >
+                      <span className="min-h-[26px] min-w-[26px] inline-flex items-center justify-center rounded-lg bg-han-turquoise/15 text-han-turquoise font-mono text-xs font-extrabold shrink-0 mt-0.5">
+                        0{sIdx + 1}
+                      </span>
+                      <p className="text-xs sm:text-sm text-slate-200 leading-relaxed font-medium">
+                        {step}
+                      </p>
+                    </div>
                   ))}
-                </ul>
+                </div>
+              </div>
+
+              <div className="pt-2 border-t border-white/[0.06]">
+                <span className="inline-flex items-center gap-2 text-xs font-semibold text-slate-300">
+                  <PrismCheckGlyph className="w-4 h-4 text-han-turquoise shrink-0" />
+                  <span>
+                    {lang === "id"
+                      ? "Kode sumber dan domain diserahkan saat pelunasan"
+                      : "Source code & domain handed over on final milestone"}
+                  </span>
+                </span>
               </div>
             </div>
+          </div>
 
-            <div className="pt-4 border-t border-white/[0.08] space-y-3">
-              <p className="text-xs sm:text-sm font-bold text-han-light">
+          {/* Full-Width Custom Retainer / Tailored Negotiation Box */}
+          <div className="rounded-2xl bg-[#181B24]/95 border border-white/[0.08] p-6 sm:p-8 flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
+            <div className="space-y-1.5 max-w-2xl">
+              <h3 className="text-base sm:text-lg font-bold text-han-light">
                 {t.pricingPage.customTitle}
-              </p>
-              <p className="text-xs text-slate-300 leading-relaxed">
+              </h3>
+              <p className="text-xs sm:text-sm text-slate-300 leading-relaxed">
                 {t.pricingPage.customDesc}
               </p>
-              <a
-                href="https://wa.me/6281334535073?text=Halo%20hanvisuals,%20saya%20ingin%20konsultasi%20Tailored%20Proposal%20untuk%20proyek%20saya."
-                target="_blank"
-                rel="noopener noreferrer"
-                className="w-full min-h-[46px] inline-flex items-center justify-center gap-2.5 rounded-xl bg-han-turquoise hover:bg-han-light px-5 py-2.5 text-xs sm:text-sm font-extrabold text-han-dark transition-all"
-              >
-                <PrismWhatsAppGlyph className="w-4 h-4" />
-                <span>{t.pricingPage.customBtn}</span>
-              </a>
             </div>
+
+            <a
+              href="https://wa.me/6281334535073?text=Halo%20hanvisuals,%20saya%20ingin%20konsultasi%20termin%20pembayaran%20dan%20proposal%20untuk%20proyek%20saya."
+              target="_blank"
+              rel="noopener noreferrer"
+              className="min-h-[46px] inline-flex items-center justify-center gap-2.5 rounded-xl bg-han-turquoise hover:bg-han-light px-6 py-3 text-xs sm:text-sm font-extrabold text-han-dark transition-all shrink-0 w-full sm:w-auto"
+            >
+              <PrismWhatsAppGlyph className="w-4 h-4" />
+              <span>{t.pricingPage.customBtn}</span>
+            </a>
           </div>
         </section>
       </main>

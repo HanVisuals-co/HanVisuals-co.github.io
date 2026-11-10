@@ -238,6 +238,50 @@ export function PrismArrowRightGlyph({ className = "w-5 h-5" }) {
   );
 }
 
+export function PrismArrowLeftGlyph({ className = "w-5 h-5" }) {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 20 20"
+      width="20"
+      height="20"
+      fill="none"
+      className={className}
+      aria-hidden="true"
+    >
+      <path
+        d="M16 10H4M4 10L9 5M4 10L9 15"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  );
+}
+
+export function PrismCloseGlyph({ className = "w-5 h-5" }) {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 20 20"
+      width="20"
+      height="20"
+      fill="none"
+      className={className}
+      aria-hidden="true"
+    >
+      <path
+        d="M5 5L15 15M15 5L5 15"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  );
+}
+
 export function PrismVolumeGlyph({ muted = true, className = "w-4 h-4" }) {
   return (
     <svg

@@ -14,7 +14,7 @@ export const portfolioData = [
     summaryId:
       "Liputan videografer lapangan dan produksi video long-form 16:9 aftermovie oleh hanvisuals dengan transisi speed-ramping, penataan suara atmosferik, dan color grading hangat.",
     thumbnail: "/portfolio/showreel-thumb.jpg",
-    videoEmbedUrl: "https://www.youtube.com/embed/PsygIflVrgU?autoplay=1&rel=0",
+    videoEmbedUrl: "https://www.youtube.com/embed/PsygIflVrgU?rel=0",
     externalUrl: "https://youtu.be/PsygIflVrgU",
     externalLabelEn: "Watch on YouTube",
     externalLabelId: "Tonton di YouTube",
@@ -37,7 +37,7 @@ export const portfolioData = [
       "Pengambilan video vertikal 9:16 dan editing di CapCut untuk TikTok serta Instagram Reels dengan sinkronisasi musik ritmis dan grading hangat.",
     thumbnail: "/portfolio/roihan-outdoor-grade.jpg",
     videoEmbedUrl:
-      "https://www.tiktok.com/player/v1/7705335750098767156?autoplay=1",
+      "https://www.tiktok.com/player/v1/7705335750098767156",
     externalUrl: "https://vt.tiktok.com/ZSph1hos5/",
     externalLabelEn: "Watch on TikTok",
     externalLabelId: "Tonton di TikTok",
