@@ -4,6 +4,7 @@ import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { useLanguage } from "@/context/LanguageContext";
 import TiltCard from "@/components/TiltCard";
+import AntigravityCanvas from "@/components/AntigravityCanvas";
 import {
   PlayPrismMark,
   PrismCopyGlyph,
@@ -23,6 +24,28 @@ export default function Hero() {
   const [copied, setCopied] = useState(false);
   const [playingReel, setPlayingReel] = useState(false);
   const [iframeLoaded, setIframeLoaded] = useState(false);
+  const [floatingShapes, setFloatingShapes] = useState(true);
+
+  useEffect(() => {
+    try {
+      const saved = localStorage.getItem("hanvisuals_floating_shapes");
+      if (saved !== null) {
+        setFloatingShapes(saved === "true");
+      }
+    } catch {
+      // Storage access safety
+    }
+  }, []);
+
+  const toggleFloatingShapes = () => {
+    setFloatingShapes((prev) => {
+      const next = !prev;
+      try {
+        localStorage.setItem("hanvisuals_floating_shapes", String(next));
+      } catch {}
+      return next;
+    });
+  };
 
   useEffect(() => {
     setWordIndex(0);
@@ -82,7 +105,8 @@ export default function Hero() {
       id="top"
       className="relative z-10 mx-auto max-w-[1440px] w-full px-5 sm:px-8 lg:px-12 pt-10 pb-14 md:pt-14 md:pb-20"
     >
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
+      <AntigravityCanvas enabled={floatingShapes} />
+      <div className="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
         <div className="lg:col-span-7 space-y-6">
           <h1 className="text-fluid-h1 font-extrabold text-han-light">
             <span className="block">{t.hero.anchorPrefix}</span>
@@ -243,13 +267,31 @@ export default function Hero() {
                   <PrismExternalGlyph className="w-3.5 h-3.5" />
                 </a>
 
-                <Link
-                  href="/pricing"
-                  className="min-h-[40px] inline-flex items-center gap-1.5 text-han-turquoise hover:text-han-light font-bold transition-colors"
-                >
-                  <span>{t.hero.viewPricing}</span>
-                  <PrismExternalGlyph className="w-3.5 h-3.5" />
-                </Link>
+                <div className="flex items-center gap-3">
+                  <button
+                    type="button"
+                    onClick={toggleFloatingShapes}
+                    title="Toggle Antigravity Floating Shapes Animation"
+                    aria-label={`Floating shapes animation: ${floatingShapes ? "Active" : "Disabled"}`}
+                    className="min-h-[36px] inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-white/[0.04] hover:bg-white/[0.09] border border-white/10 text-[11px] font-medium text-slate-400 hover:text-han-light transition-all duration-200"
+                  >
+                    <span
+                      className={`w-1.5 h-1.5 rounded-full transition-colors ${
+                        floatingShapes ? "bg-han-turquoise" : "bg-slate-500"
+                      }`}
+                      aria-hidden="true"
+                    />
+                    <span>{floatingShapes ? "Shapes: ON" : "Shapes: OFF"}</span>
+                  </button>
+
+                  <Link
+                    href="/pricing"
+                    className="min-h-[40px] inline-flex items-center gap-1.5 text-han-turquoise hover:text-han-light font-bold transition-colors"
+                  >
+                    <span>{t.hero.viewPricing}</span>
+                    <PrismExternalGlyph className="w-3.5 h-3.5" />
+                  </Link>
+                </div>
               </div>
             </div>
           </TiltCard>
