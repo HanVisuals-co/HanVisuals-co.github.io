@@ -30,7 +30,7 @@ export default function Hero() {
   // Sync video play/pause & set calm playback rate
   useEffect(() => {
     if (videoRef.current) {
-      videoRef.current.playbackRate = 0.75; // Silky calm 60fps playback
+      videoRef.current.playbackRate = 1.0; // Native silky 60fps Remotion playback
       if (motionPaused || !isVideoPlaying) {
         videoRef.current.pause();
       } else {
@@ -88,13 +88,13 @@ export default function Hero() {
         }
 
         // 2. Dark overlay opacity: minimal at start, darkens to 0.98 as video fades
-        const overlayOpacity = Math.min(0.98, 0.32 + progress * 0.66);
+        const overlayOpacity = Math.min(0.98, 0.2 + progress * 0.78);
         if (overlayLayerRef.current) {
           overlayLayerRef.current.style.opacity = overlayOpacity.toFixed(3);
         }
 
         // 3. Text opacity & transform: soft teaser at start, blooms to 1.0 bold focus
-        const textOpacity = Math.min(1, 0.22 + progress * 1.15);
+        const textOpacity = Math.min(1, 0.16 + progress * 1.25);
         const translateY = Math.max(0, 24 * (1 - progress * 1.3));
         const scale = Math.min(1, 0.975 + progress * 0.025);
 
@@ -165,8 +165,8 @@ export default function Hero() {
             loop
             muted
             playsInline
-            poster="/portfolio/showreel-thumb.jpg"
-            className="absolute inset-0 w-full h-full object-cover object-center filter brightness-[0.7] contrast-[1.08]"
+            poster="/videos/hero-bg-poster.png"
+            className="absolute inset-0 w-full h-full object-cover object-center"
           >
             <source src="/videos/hero-bg.mp4" type="video/mp4" />
           </video>
@@ -175,7 +175,7 @@ export default function Hero() {
         {/* 2. Dynamic Cinematic Overlay Layer */}
         <div
           ref={overlayLayerRef}
-          className="absolute inset-0 z-0 pointer-events-none bg-gradient-to-t from-[#13151B] via-[#13151B]/85 to-[#13151B]/60 will-change-[opacity]"
+          className="absolute inset-0 z-0 pointer-events-none bg-gradient-to-t from-[#13151B] via-[#13151B]/75 to-[#13151B]/40 will-change-[opacity]"
         />
 
         {/* 3. Optional Antigravity Shapes Layer */}
@@ -188,7 +188,7 @@ export default function Hero() {
               className="w-2 h-2 rounded-full bg-han-turquoise animate-pulse"
               aria-hidden="true"
             />
-            <span>SHOWREEL AMBIENT • 4K 24FPS</span>
+            <span>REMOTION MOTION • 60FPS</span>
           </div>
 
           <div
@@ -290,7 +290,7 @@ export default function Hero() {
               <span>{isVideoPlaying ? "❚❚ Pause Latar" : "▶ Putar Latar"}</span>
             </button>
             <span className="hidden sm:inline text-slate-400 font-medium">
-              Aftermovie Capacity Building • FK UMM
+              Han Visuals Prism Ambient • 60FPS
             </span>
           </div>
 
