@@ -23,7 +23,6 @@ export default function Hero() {
   const videoLayerRef = useRef(null);
   const overlayLayerRef = useRef(null);
   const textContentRef = useRef(null);
-  const scrollHintRef = useRef(null);
 
   // Sync video play/pause & set calm playback rate
   useEffect(() => {
@@ -100,12 +99,6 @@ export default function Hero() {
           textContentRef.current.style.pointerEvents =
             textOpacity > 0.4 ? "auto" : "none";
         }
-
-        // 4. Scroll indicator: fades away early
-        if (scrollHintRef.current) {
-          const hintOpacity = Math.max(0, 1 - progress * 3.5);
-          scrollHintRef.current.style.opacity = hintOpacity.toFixed(3);
-        }
       });
     };
 
@@ -177,25 +170,7 @@ export default function Hero() {
         {/* 3. Optional Antigravity Shapes Layer */}
         <AntigravityCanvas enabled={floatingShapes} />
 
-        {/* 4. Top Micro Bar: Status & Quality Hint */}
-        <div className="relative z-10 mx-auto max-w-[1440px] w-full px-5 sm:px-8 lg:px-12 flex items-center justify-between text-xs pt-1">
-          <div className="inline-flex items-center gap-2 rounded-full bg-[#181B23]/80 backdrop-blur-md border border-white/10 px-3.5 py-1 text-xs font-mono text-slate-300">
-            <span
-              className="w-2 h-2 rounded-full bg-han-turquoise animate-pulse"
-              aria-hidden="true"
-            />
-            <span>REMOTION MOTION • 60FPS</span>
-          </div>
-
-          <div
-            ref={scrollHintRef}
-            className="hidden sm:inline-flex items-center gap-1.5 font-mono text-[11px] text-slate-300 bg-black/40 backdrop-blur-sm border border-white/10 px-3 py-1 rounded-full will-change-[opacity]"
-          >
-            <span>↓ Scroll untuk membuka teks &amp; layanan</span>
-          </div>
-        </div>
-
-        {/* 5. Centered Full-Screen Hero Typography & Actions (Initially hidden at scroll 0) */}
+        {/* 4. Centered Full-Screen Hero Typography & Actions (Initially hidden at scroll 0) */}
         <div className="relative z-10 mx-auto max-w-5xl w-full px-5 sm:px-8 lg:px-12 my-auto text-center flex flex-col items-center justify-center">
           <div
             ref={textContentRef}
