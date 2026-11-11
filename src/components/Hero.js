@@ -5,7 +5,6 @@ import Link from "next/link";
 import { useLanguage } from "@/context/LanguageContext";
 import AntigravityCanvas from "@/components/AntigravityCanvas";
 import {
-  PlayPrismMark,
   PrismCopyGlyph,
   PrismCheckGlyph,
   PrismInstagramGlyph,
@@ -17,7 +16,6 @@ export default function Hero() {
   const { t, motionPaused } = useLanguage();
   const [copied, setCopied] = useState(false);
   const [isVideoPlaying, setIsVideoPlaying] = useState(true);
-  const [showTheatreModal, setShowTheatreModal] = useState(false);
   const [floatingShapes, setFloatingShapes] = useState(false);
 
   const heroTrackRef = useRef(null);
@@ -39,17 +37,6 @@ export default function Hero() {
     }
   }, [motionPaused, isVideoPlaying]);
 
-  // Handle ESC key for theatre modal
-  useEffect(() => {
-    const handleKeyDown = (e) => {
-      if (e.key === "Escape" && showTheatreModal) {
-        setShowTheatreModal(false);
-      }
-    };
-    window.addEventListener("keydown", handleKeyDown);
-    return () => window.removeEventListener("keydown", handleKeyDown);
-  }, [showTheatreModal]);
-
   // Load floating shapes preference from localStorage
   useEffect(() => {
     try {
@@ -63,6 +50,8 @@ export default function Hero() {
   }, []);
 
   // 60FPS Scroll-driven choreography (Zero React re-render lag)
+  // At scroll 0: Animation is 100% visible, text is completely hidden (opacity: 0).
+  // As user scrolls: Animation dissolves to 0, text blooms to 1.0 centered in 100vh.
   useEffect(() => {
     const track = heroTrackRef.current;
     if (!track) return;
@@ -81,33 +70,40 @@ export default function Hero() {
 
         const progress = Math.min(Math.max(scrollDist / maxScroll, 0), 1);
 
-        // 1. Video opacity: vivid at scroll 0, smoothly dissolves to 0 at progress ~0.8
-        const videoOpacity = Math.max(0, 1 - progress * 1.25);
+        // 1. Video opacity: 1.0 at scroll 0, dissolves to 0 around progress 0.75
+        const videoOpacity = Math.max(0, 1 - progress * 1.35);
         if (videoLayerRef.current) {
           videoLayerRef.current.style.opacity = videoOpacity.toFixed(3);
         }
 
-        // 2. Dark overlay opacity: minimal at start, darkens to 0.98 as video fades
-        const overlayOpacity = Math.min(0.98, 0.2 + progress * 0.78);
+        // 2. Dark overlay opacity: minimal at start (0.06), darkens to 0.98 as video fades
+        const overlayOpacity = Math.min(0.98, 0.06 + progress * 0.92);
         if (overlayLayerRef.current) {
           overlayLayerRef.current.style.opacity = overlayOpacity.toFixed(3);
         }
 
-        // 3. Text opacity & transform: soft teaser at start, blooms to 1.0 bold focus
-        const textOpacity = Math.min(1, 0.16 + progress * 1.25);
-        const translateY = Math.max(0, 24 * (1 - progress * 1.3));
-        const scale = Math.min(1, 0.975 + progress * 0.025);
+        // 3. Text opacity & transform: 0.0 at scroll 0 (animation unobstructed),
+        // starts appearing after progress 0.12 and blooms to 1.0 at progress ~0.70
+        let textOpacity = 0;
+        if (progress > 0.12) {
+          textOpacity = Math.min(1, (progress - 0.12) / 0.58);
+        }
+
+        const translateY = Math.max(0, 32 * (1 - textOpacity));
+        const scale = 0.96 + textOpacity * 0.04;
 
         if (textContentRef.current) {
           textContentRef.current.style.opacity = textOpacity.toFixed(3);
           textContentRef.current.style.transform = `translate3d(0, ${translateY.toFixed(
             1
           )}px, 0) scale(${scale.toFixed(3)})`;
+          textContentRef.current.style.pointerEvents =
+            textOpacity > 0.4 ? "auto" : "none";
         }
 
         // 4. Scroll indicator: fades away early
         if (scrollHintRef.current) {
-          const hintOpacity = Math.max(0, 1 - progress * 3.2);
+          const hintOpacity = Math.max(0, 1 - progress * 3.5);
           scrollHintRef.current.style.opacity = hintOpacity.toFixed(3);
         }
       });
@@ -150,7 +146,7 @@ export default function Hero() {
     <div
       ref={heroTrackRef}
       id="top"
-      className="relative w-full h-[180vh] md:h-[190vh]"
+      className="relative w-full h-[190vh] md:h-[200vh]"
     >
       {/* Pinned 100vh Fullscreen Viewport */}
       <section className="sticky top-0 h-screen w-full flex flex-col justify-between overflow-hidden pt-6 pb-6 md:pt-10 md:pb-8">
@@ -195,29 +191,37 @@ export default function Hero() {
             ref={scrollHintRef}
             className="hidden sm:inline-flex items-center gap-1.5 font-mono text-[11px] text-slate-300 bg-black/40 backdrop-blur-sm border border-white/10 px-3 py-1 rounded-full will-change-[opacity]"
           >
-            <span>↓ Scroll untuk memfokuskan teks</span>
+            <span>↓ Scroll untuk membuka teks &amp; layanan</span>
           </div>
         </div>
 
-        {/* 5. Centered Full-Screen Hero Typography & Actions */}
-        <div className="relative z-10 mx-auto max-w-4xl w-full px-5 sm:px-8 lg:px-12 my-auto text-center flex flex-col items-center justify-center">
+        {/* 5. Centered Full-Screen Hero Typography & Actions (Initially hidden at scroll 0) */}
+        <div className="relative z-10 mx-auto max-w-5xl w-full px-5 sm:px-8 lg:px-12 my-auto text-center flex flex-col items-center justify-center">
           <div
             ref={textContentRef}
+            style={{
+              opacity: 0,
+              transform: "translate3d(0, 32px, 0)",
+              pointerEvents: "none",
+            }}
             className="space-y-6 flex flex-col items-center will-change-[transform,opacity]"
           >
-            <h1 className="text-fluid-h1 font-bold text-han-light drop-shadow-md max-w-3xl">
-              <span className="block text-han-light">
+            <h1 className="text-fluid-h1 font-bold text-han-light drop-shadow-md max-w-4xl mx-auto">
+              {/* Line 1: Single clean line on tablet & desktop */}
+              <span className="block text-han-light sm:whitespace-nowrap">
                 {t.hero.headlinePrefix || t.hero.anchorPrefix}
               </span>
-              <span className="block text-han-turquoise mt-1">
+              {/* Line 2: Highlighted punchline */}
+              <span className="block text-han-turquoise mt-1.5 sm:whitespace-nowrap">
                 {t.hero.headlineHighlight || ""}
               </span>
-              <span className="block text-slate-200 mt-2 text-[0.8em] sm:text-[0.86em] font-medium max-w-2xl mx-auto">
+              {/* Line 3: Audience specification */}
+              <span className="block text-slate-200 mt-2 text-[0.78em] sm:text-[0.84em] font-medium sm:whitespace-nowrap mx-auto">
                 {t.hero.headlineSuffix || t.hero.anchorSuffix}
               </span>
             </h1>
 
-            <p className="text-base sm:text-lg text-slate-200 leading-relaxed max-w-2xl font-normal drop-shadow-sm">
+            <p className="text-base sm:text-lg text-slate-200 leading-relaxed max-w-2xl font-normal drop-shadow-sm text-balance">
               {t.hero.sub}
             </p>
 
@@ -233,20 +237,11 @@ export default function Hero() {
                   <span>{t.hero.ctaWhatsApp}</span>
                 </a>
 
-                <button
-                  type="button"
-                  onClick={() => setShowTheatreModal(true)}
-                  className="min-h-[46px] inline-flex items-center gap-2.5 rounded-xl bg-white/[0.08] hover:bg-white/[0.16] backdrop-blur-md border border-white/15 px-5 py-2.5 text-sm sm:text-base font-semibold text-han-light transition-colors duration-200 shadow-lg"
-                >
-                  <PlayPrismMark size={16} voidColor="#13151B" />
-                  <span>Tonton dengan Audio</span>
-                </button>
-
                 <a
                   href="https://www.instagram.com/hanvisuals._?cplk=MWhkOGE0cGYzajAwOA%3D%3D&utm_source=qr"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="min-h-[46px] inline-flex items-center gap-2 rounded-xl bg-[#1E222D]/85 hover:bg-[#252A38] border border-white/[0.08] hover:border-han-turquoise/40 px-4 py-2.5 text-sm sm:text-base font-semibold text-slate-200 hover:text-han-light transition-colors duration-200 backdrop-blur-sm"
+                  className="min-h-[46px] inline-flex items-center gap-2 rounded-xl bg-[#1E222D]/85 hover:bg-[#252A38] border border-white/[0.08] hover:border-han-turquoise/40 px-5 py-2.5 text-sm sm:text-base font-semibold text-slate-200 hover:text-han-light transition-colors duration-200 backdrop-blur-sm"
                 >
                   <PrismInstagramGlyph className="w-4 h-4 text-han-turquoise" />
                   <span>{t.hero.ctaPrimary}</span>
@@ -322,33 +317,6 @@ export default function Hero() {
             </Link>
           </div>
         </div>
-
-        {/* 7. Fullscreen Cinema Lightbox Modal */}
-        {showTheatreModal && (
-          <div
-            role="dialog"
-            aria-modal="true"
-            aria-label="Video Showreel Layar Penuh"
-            className="fixed inset-0 z-50 bg-black/92 backdrop-blur-lg flex items-center justify-center p-4 sm:p-6 lg:p-10 animate-in fade-in duration-200"
-          >
-            <div className="relative w-full max-w-5xl aspect-video rounded-2xl overflow-hidden bg-black border border-white/15 shadow-2xl">
-              <button
-                type="button"
-                onClick={() => setShowTheatreModal(false)}
-                className="absolute top-4 right-4 z-30 min-h-[38px] px-3.5 py-1.5 rounded-xl bg-[#13151B]/90 backdrop-blur-md border border-white/20 text-xs font-semibold text-slate-200 hover:text-han-turquoise transition-colors"
-              >
-                Tutup [ESC]
-              </button>
-              <iframe
-                src="https://www.youtube.com/embed/PsygIflVrgU?autoplay=1&rel=0"
-                title={t.hero.reelTitle}
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                allowFullScreen
-                className="w-full h-full border-0"
-              />
-            </div>
-          </div>
-        )}
       </section>
     </div>
   );
