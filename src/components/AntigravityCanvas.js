@@ -130,12 +130,12 @@ export default function AntigravityCanvas({
     let rafId = null;
     let isVisible = true;
 
-    // Responsive particle count
+    // Responsive particle count (quiet, crafted density)
     const getTargetCount = () => {
       const isMobile = window.innerWidth < 768;
-      if (density === "sparse") return isMobile ? 12 : 24;
-      if (density === "dense") return isMobile ? 26 : 52;
-      return isMobile ? 18 : 36;
+      if (density === "sparse") return isMobile ? 8 : 14;
+      if (density === "dense") return isMobile ? 16 : 28;
+      return isMobile ? 10 : 20;
     };
 
     // Particle representation
@@ -149,10 +149,10 @@ export default function AntigravityCanvas({
         // Float upward: initial particles populate throughout, respawned start near bottom
         this.y = isInitial ? Math.random() * height : height + 35;
 
-        // Visual size between 10px and 22px
-        this.visualSize = Math.random() * 12 + 10;
-        this.depth = Math.random() * 0.6 + 0.7; // 0.7x to 1.3x depth
-        this.opacity = Math.random() * 0.35 + 0.6; // 0.6 to 0.95
+        // Visual size between 8px and 18px (refined, non-distracting)
+        this.visualSize = Math.random() * 10 + 8;
+        this.depth = Math.random() * 0.5 + 0.7; // 0.7x to 1.2x depth
+        this.opacity = Math.random() * 0.25 + 0.35; // 0.35 to 0.60 quiet backdrop opacity
 
         // Floating buoyancy & subtle drift
         this.vx = (Math.random() - 0.5) * 0.45;

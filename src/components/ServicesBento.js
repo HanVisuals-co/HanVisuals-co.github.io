@@ -150,7 +150,7 @@ export default function ServicesBento() {
         <div className="space-y-2 max-w-2xl">
           <h2
             id="services-heading"
-            className="text-fluid-h2 font-extrabold text-han-light"
+            className="text-fluid-h2 font-bold text-han-light"
           >
             {t.services.title}
           </h2>
@@ -165,28 +165,28 @@ export default function ServicesBento() {
             href="/pricing"
             aria-label={t.services.viewPricingBtn}
             title={t.services.viewPricingBtn}
-            className="min-h-[42px] min-w-[42px] inline-flex items-center justify-center rounded-xl bg-han-turquoise hover:bg-han-light text-han-dark transition-all duration-300 hover:scale-105 active:scale-95 shadow-sm"
+            className="min-h-[40px] min-w-[40px] inline-flex items-center justify-center rounded-xl bg-han-turquoise hover:bg-han-light text-han-dark transition-colors"
           >
             <PrismExternalGlyph className="w-4 h-4" />
           </Link>
 
           {/* Slider Arrow Buttons & Counter Hint */}
-          <div className="inline-flex items-center gap-1.5 rounded-xl bg-[#13151C] border border-white/[0.08] p-1">
+          <div className="inline-flex items-center gap-1.5 rounded-xl bg-[#181B23] border border-white/[0.08] p-1">
             <button
               type="button"
               onClick={() => scrollSlider("left")}
               disabled={!canScrollLeft}
               aria-label={t.services.prevSlide}
-              className={`min-h-[40px] min-w-[40px] inline-flex items-center justify-center rounded-lg transition-all ${
+              className={`min-h-[38px] min-w-[38px] inline-flex items-center justify-center rounded-lg transition-colors ${
                 canScrollLeft
-                  ? "text-slate-200 hover:text-han-turquoise hover:bg-white/[0.06] active:scale-95 cursor-pointer"
+                  ? "text-slate-200 hover:text-han-turquoise hover:bg-white/[0.06] cursor-pointer"
                   : "text-slate-600 opacity-40 cursor-not-allowed"
               }`}
             >
               <PrismArrowLeftGlyph className="w-4 h-4" />
             </button>
 
-            <span className="text-[11px] font-mono font-bold text-slate-300 px-2 select-none">
+            <span className="text-[11px] font-mono tabular-nums font-semibold text-slate-300 px-2 select-none">
               {activePage === 0 ? "01 - 03" : "04 - 06"}{" "}
               <span className="text-slate-500">/ 06</span>
             </span>
@@ -196,9 +196,9 @@ export default function ServicesBento() {
               onClick={() => scrollSlider("right")}
               disabled={!canScrollRight}
               aria-label={t.services.nextSlide}
-              className={`min-h-[40px] min-w-[40px] inline-flex items-center justify-center rounded-lg transition-all ${
+              className={`min-h-[38px] min-w-[38px] inline-flex items-center justify-center rounded-lg transition-colors ${
                 canScrollRight
-                  ? "text-slate-200 hover:text-han-turquoise hover:bg-white/[0.06] active:scale-95 cursor-pointer"
+                  ? "text-slate-200 hover:text-han-turquoise hover:bg-white/[0.06] cursor-pointer"
                   : "text-slate-600 opacity-40 cursor-not-allowed"
               }`}
             >
@@ -258,18 +258,18 @@ export default function ServicesBento() {
                   isExpanded ? "z-30 relative" : "z-10 relative"
                 }`}
               >
-                <TiltCard className="h-full" intensity={2.5} disabled={isExpanded}>
+                <TiltCard className="h-full" disabled={isExpanded}>
                   <div
-                    className={`p-6 sm:p-7 h-full flex flex-col justify-between space-y-5 rounded-2xl transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] ${
+                    className={`p-6 sm:p-7 h-full flex flex-col justify-between space-y-5 rounded-2xl transition-all duration-300 ${
                       isExpanded
-                        ? "bg-[#191D28] ring-1 ring-han-turquoise/60 shadow-[0_20px_50px_rgba(0,0,0,0.85)]"
-                        : "bg-[#151720] border border-white/[0.06] hover:border-white/20"
+                        ? "bg-[#1B1E28] ring-1 ring-han-turquoise/50 shadow-xl"
+                        : "bg-[#181B23] border border-white/[0.08] hover:border-white/[0.14]"
                     }`}
                   >
                     {/* Top Bar: Number only */}
                     <div className="space-y-4">
                       <div className="flex items-center justify-between">
-                        <span className="inline-flex items-center gap-2 text-xs sm:text-sm font-mono font-bold text-slate-400">
+                        <span className="inline-flex items-center gap-2 text-xs sm:text-sm font-mono tabular-nums font-semibold text-slate-400">
                           <span
                             className="w-2.5 h-2.5 rounded-full"
                             style={{ backgroundColor: srv.dotColor }}
@@ -285,7 +285,7 @@ export default function ServicesBento() {
                           {srv.title}
                         </h3>
                         {srv.priceAnchor && (
-                          <p className="text-xs sm:text-sm font-extrabold text-han-turquoise">
+                          <p className="text-xs sm:text-sm font-bold tabular-nums text-han-turquoise">
                             {srv.priceAnchor}
                           </p>
                         )}
@@ -293,14 +293,14 @@ export default function ServicesBento() {
 
                       {/* Expandable Content Area (Smooth In-Place Reveal) */}
                       <div
-                        className={`overflow-hidden transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] ${
+                        className={`overflow-hidden transition-all duration-300 ${
                           isExpanded
                             ? "max-h-[850px] opacity-100 pt-3 border-t border-white/[0.08] space-y-5"
                             : "max-h-0 opacity-0 pointer-events-none"
                         }`}
                       >
                         <div className="space-y-1.5">
-                          <h4 className="text-[11px] font-bold uppercase tracking-wider text-slate-400">
+                          <h4 className="text-xs font-semibold text-slate-400">
                             {t.services.descHeading}
                           </h4>
                           <p className="text-xs sm:text-sm text-slate-200 leading-relaxed">
@@ -309,14 +309,14 @@ export default function ServicesBento() {
                         </div>
 
                         <div className="space-y-2.5">
-                          <h4 className="text-[11px] font-bold uppercase tracking-wider text-slate-400">
+                          <h4 className="text-xs font-semibold text-slate-400">
                             {t.services.deliverablesTitle}
                           </h4>
                           <ul className="space-y-2">
                             {srv.deliverables.map((item) => (
                               <li
                                 key={item}
-                                className="flex items-start gap-2.5 rounded-lg bg-[#12141B] border border-white/[0.05] p-2.5 text-xs font-medium text-slate-200"
+                                className="flex items-start gap-2.5 rounded-lg bg-[#14161F] border border-white/[0.05] p-2.5 text-xs font-medium text-slate-200"
                               >
                                 <PrismCheckGlyph className="w-3.5 h-3.5 text-han-turquoise shrink-0 mt-0.5" />
                                 <span>{item}</span>

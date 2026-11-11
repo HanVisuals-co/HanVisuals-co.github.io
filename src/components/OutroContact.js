@@ -32,11 +32,11 @@ export default function OutroContact() {
       id="contact"
       className="relative z-10 mx-auto max-w-[1440px] w-full px-5 sm:px-8 lg:px-12 pt-10 pb-24"
     >
-      <div className="rounded-3xl bg-[#181B24]/95 border border-white/[0.08] p-7 sm:p-10 lg:p-12 space-y-8 shadow-2xl">
+      <div className="rounded-3xl bg-[#181B23] border border-white/[0.08] p-7 sm:p-10 lg:p-12 space-y-8 shadow-xl">
         <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-6">
           <div className="max-w-xl space-y-3.5">
             <HanVisualsLockup size={36} voidColor="#FDFCF9" />
-            <h2 className="text-fluid-h2 font-extrabold text-han-light pt-2">
+            <h2 className="text-fluid-h2 font-bold text-han-light pt-2">
               {t.outro.title}
             </h2>
             <p className="text-sm sm:text-base text-slate-300 leading-relaxed">
@@ -46,19 +46,19 @@ export default function OutroContact() {
 
           <Link
             href="/pricing"
-            className="min-h-[48px] inline-flex items-center gap-2 rounded-xl bg-[#13151C] hover:bg-han-slate border border-han-turquoise/40 px-5 py-3 text-sm font-extrabold text-han-turquoise hover:text-han-light transition-all self-start lg:self-auto"
+            className="min-h-[44px] inline-flex items-center gap-2 rounded-xl bg-[#202430] hover:bg-[#282E3E] border border-han-turquoise/40 px-5 py-2.5 text-sm font-bold text-han-turquoise hover:text-han-light transition-colors self-start lg:self-auto"
           >
             <span>{t.outro.pricingBtn}</span>
             <PrismExternalGlyph className="w-4 h-4" />
           </Link>
         </div>
 
-        <div className="flex flex-wrap items-center gap-3.5">
+        <div className="flex flex-wrap items-center gap-3">
           <a
             href="https://wa.me/6281334535073?text=Halo%20hanvisuals,%20saya%20ingin%20berdiskusi%20mengenai%20proyek."
             target="_blank"
             rel="noopener noreferrer"
-            className="min-h-[48px] inline-flex items-center gap-2.5 rounded-xl bg-han-turquoise hover:bg-han-light px-6 py-3 text-sm sm:text-base font-extrabold text-han-dark transition-all active:scale-[0.99]"
+            className="min-h-[46px] inline-flex items-center gap-2.5 rounded-xl bg-han-turquoise hover:bg-han-light px-6 py-2.5 text-sm sm:text-base font-bold text-han-dark transition-colors"
           >
             <PrismWhatsAppGlyph className="w-5 h-5" />
             <span>{t.outro.waBtn}</span>
@@ -68,24 +68,24 @@ export default function OutroContact() {
             href="https://www.instagram.com/hanvisuals._?cplk=MWhkOGE0cGYzajAwOA%3D%3D&utm_source=qr"
             target="_blank"
             rel="noopener noreferrer"
-            className="min-h-[48px] inline-flex items-center gap-2.5 rounded-xl bg-[#13151C] hover:bg-han-slate border border-white/10 hover:border-han-turquoise/40 px-5 py-3 text-sm sm:text-base font-bold text-han-light transition-all"
+            className="min-h-[46px] inline-flex items-center gap-2.5 rounded-xl bg-[#202430] hover:bg-[#282E3E] border border-white/[0.08] hover:border-han-turquoise/40 px-5 py-2.5 text-sm sm:text-base font-semibold text-slate-200 transition-colors"
           >
-            <PrismInstagramGlyph className="w-5 h-5 text-han-turquoise" />
+            <PrismInstagramGlyph className="w-4 h-4 text-han-turquoise" />
             <span>{t.outro.dmBtn}</span>
           </a>
 
           <a
             href="mailto:muhammadroihannn@gmail.com"
-            className="min-h-[48px] inline-flex items-center gap-2.5 rounded-xl bg-[#13151C] hover:bg-han-slate border border-white/10 hover:border-han-turquoise/40 px-5 py-3 text-sm sm:text-base font-bold text-han-light transition-all"
+            className="min-h-[46px] inline-flex items-center gap-2.5 rounded-xl bg-[#202430] hover:bg-[#282E3E] border border-white/[0.08] hover:border-han-turquoise/40 px-5 py-2.5 text-sm sm:text-base font-semibold text-slate-200 transition-colors"
           >
-            <PrismMailGlyph className="w-5 h-5 text-han-turquoise" />
+            <PrismMailGlyph className="w-4 h-4 text-han-turquoise" />
             <span>{t.outro.emailBtn}</span>
           </a>
 
           <button
             type="button"
             onClick={handleCopy}
-            className="min-h-[48px] min-w-[148px] inline-flex items-center justify-center gap-2.5 rounded-xl bg-[#13151C] hover:bg-han-slate border border-white/10 hover:border-han-turquoise/40 px-5 py-3 text-sm sm:text-base font-bold text-han-light transition-all"
+            className="min-h-[46px] min-w-[140px] inline-flex items-center justify-center gap-2 rounded-xl bg-[#202430] hover:bg-[#282E3E] border border-white/[0.08] hover:border-han-turquoise/40 px-5 py-2.5 text-sm sm:text-base font-semibold text-slate-200 transition-colors"
           >
             {copied ? (
               <>

@@ -43,13 +43,13 @@ export default function FloatingDock() {
   return (
     <aside
       aria-label="Quick contact actions"
-      className="fixed bottom-4 right-4 sm:bottom-6 sm:right-6 z-40 pb-[env(safe-area-inset-bottom)] flex items-center gap-2 rounded-2xl bg-[#181B24]/95 border border-white/10 p-2 shadow-2xl"
+      className="fixed bottom-4 right-4 sm:bottom-6 sm:right-6 z-40 pb-[env(safe-area-inset-bottom)] flex items-center gap-2 rounded-2xl bg-[#181B23]/95 border border-white/10 p-2 shadow-xl backdrop-blur-md"
     >
       <a
         href="https://wa.me/6281334535073?text=Halo%20hanvisuals,%20saya%20ingin%20berdiskusi%20mengenai%20proyek."
         target="_blank"
         rel="noopener noreferrer"
-        className="min-h-[44px] inline-flex items-center gap-2 rounded-xl bg-han-turquoise hover:bg-han-light px-3.5 py-2 text-xs font-extrabold text-han-dark transition-colors"
+        className="min-h-[40px] inline-flex items-center gap-2 rounded-xl bg-han-turquoise hover:bg-han-light px-3.5 py-1.5 text-xs font-bold text-han-dark transition-colors"
       >
         <PrismWhatsAppGlyph className="w-4 h-4" />
         <span>{t.dock.waLabel}</span>
@@ -59,7 +59,7 @@ export default function FloatingDock() {
         href="https://www.instagram.com/hanvisuals._?cplk=MWhkOGE0cGYzajAwOA%3D%3D&utm_source=qr"
         target="_blank"
         rel="noopener noreferrer"
-        className="min-h-[44px] inline-flex items-center gap-2 rounded-xl bg-[#13151C] hover:bg-han-slate border border-white/[0.08] px-3.5 py-2 text-xs font-bold text-han-light transition-colors"
+        className="min-h-[40px] inline-flex items-center gap-2 rounded-xl bg-[#202430] hover:bg-[#282E3E] border border-white/[0.08] px-3.5 py-1.5 text-xs font-semibold text-slate-200 transition-colors"
       >
         <PrismInstagramGlyph className="w-4 h-4 text-han-turquoise" />
         <span>{t.dock.dmLabel}</span>
@@ -67,7 +67,7 @@ export default function FloatingDock() {
 
       <Link
         href="/pricing"
-        className="min-h-[44px] inline-flex items-center rounded-xl bg-[#13151C] hover:bg-han-slate border border-white/[0.08] px-3.5 py-2 text-xs font-bold text-han-turquoise hover:text-han-light transition-colors"
+        className="min-h-[40px] inline-flex items-center rounded-xl bg-[#202430] hover:bg-[#282E3E] border border-white/[0.08] px-3.5 py-1.5 text-xs font-semibold text-han-turquoise hover:text-han-light transition-colors"
       >
         {t.dock.pricingLabel}
       </Link>

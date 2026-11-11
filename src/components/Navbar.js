@@ -32,7 +32,7 @@ export default function Navbar() {
     <header className="sticky top-4 z-50 mx-auto max-w-[1440px] w-full px-5 sm:px-8 lg:px-12">
       <nav
         aria-label="Main navigation"
-        className="flex items-center justify-between gap-3 rounded-2xl bg-[#161922]/88 backdrop-blur-md border border-white/[0.08] px-4 sm:px-5 py-2.5 shadow-xl"
+        className="flex items-center justify-between gap-3 rounded-2xl bg-[#13151B]/92 backdrop-blur-md border border-white/[0.08] px-4 sm:px-5 py-2.5 shadow-lg"
       >
         <Link
           href="/#top"
@@ -41,12 +41,12 @@ export default function Navbar() {
           <HanVisualsLockup size={30} voidColor="#FDFCF9" />
         </Link>
 
-        <div className="hidden lg:flex items-center gap-1.5">
+        <div className="hidden lg:flex items-center gap-1">
           {navItems.map((item) => (
             <Link
               key={item.href}
               href={item.href}
-              className="min-h-[44px] inline-flex items-center px-3.5 py-2 text-sm font-semibold text-slate-200 hover:text-han-turquoise rounded-lg transition-colors duration-200"
+              className="min-h-[40px] inline-flex items-center px-3.5 py-1.5 text-sm font-medium text-slate-300 hover:text-han-turquoise rounded-lg transition-colors duration-200"
             >
               {item.label}
             </Link>
@@ -58,10 +58,10 @@ export default function Navbar() {
             href="https://wa.me/6281334535073"
             target="_blank"
             rel="noopener noreferrer"
-            className="min-h-[40px] inline-flex items-center gap-2 rounded-lg bg-[#1D202C] hover:bg-han-slate border border-white/[0.08] px-3.5 py-1.5 text-xs font-semibold text-slate-200 hover:text-han-turquoise transition-colors duration-200"
+            className="min-h-[38px] inline-flex items-center gap-2 rounded-lg bg-[#181B23] hover:bg-[#202430] border border-white/[0.08] px-3.5 py-1.5 text-xs font-medium text-slate-300 hover:text-han-turquoise transition-colors duration-200"
           >
             <span
-              className="h-2 w-2 rounded-full bg-han-turquoise shrink-0"
+              className="h-1.5 w-1.5 rounded-full bg-han-turquoise shrink-0"
               aria-hidden="true"
             />
             <span>{t.nav.status}</span>
@@ -79,7 +79,7 @@ export default function Navbar() {
             onClick={() => setMenuOpen((prev) => !prev)}
             aria-expanded={menuOpen}
             aria-controls="mobile-nav-drawer"
-            className="min-h-[44px] inline-flex items-center gap-2 rounded-xl bg-[#1D202C] px-3.5 py-2 text-xs font-bold text-han-light border border-white/[0.08] hover:border-han-turquoise/40"
+            className="min-h-[40px] inline-flex items-center gap-2 rounded-xl bg-[#181B23] px-3.5 py-2 text-xs font-semibold text-han-light border border-white/[0.08] hover:border-han-turquoise/40"
           >
             <span>{menuOpen ? t.nav.menuClose : t.nav.menuOpen}</span>
             <svg
@@ -113,7 +113,7 @@ export default function Navbar() {
       {menuOpen && (
         <div
           id="mobile-nav-drawer"
-          className="mt-2 rounded-2xl bg-[#181B24] border border-white/10 p-4 shadow-2xl lg:hidden"
+          className="mt-2 rounded-2xl bg-[#181B23] border border-white/10 p-4 shadow-xl lg:hidden"
         >
           <div className="flex flex-col gap-1">
             {navItems.map((item) => (

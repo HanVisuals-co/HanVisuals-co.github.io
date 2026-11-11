@@ -73,9 +73,9 @@ export default function PricingPage() {
       >
         <div className="space-y-6">
           <div className="flex flex-wrap items-center justify-between gap-4">
-            <span className="inline-flex items-center gap-2 rounded-lg bg-[#1D202C] border border-white/[0.08] px-3.5 py-1.5 text-xs font-bold text-han-turquoise">
+            <span className="inline-flex items-center gap-2 rounded-lg bg-[#181B23] border border-white/[0.08] px-3.5 py-1.5 text-xs font-semibold text-han-turquoise">
               <span
-                className="w-2 h-2 rounded-full bg-han-turquoise"
+                className="w-1.5 h-1.5 rounded-full bg-han-turquoise"
                 aria-hidden="true"
               />
               <span>{t.pricingPage.badge}</span>
@@ -83,14 +83,14 @@ export default function PricingPage() {
 
             <Link
               href="/"
-              className="min-h-[40px] inline-flex items-center text-xs sm:text-sm font-bold text-slate-300 hover:text-han-turquoise transition-colors"
+              className="min-h-[40px] inline-flex items-center text-xs sm:text-sm font-semibold text-slate-300 hover:text-han-turquoise transition-colors"
             >
               &larr; {t.pricingPage.backHome}
             </Link>
           </div>
 
           <div className="max-w-3xl space-y-3">
-            <h1 className="text-fluid-h1 font-extrabold text-han-light">
+            <h1 className="text-fluid-h1 font-bold text-han-light">
               {t.pricingPage.title}
             </h1>
             <p className="text-base sm:text-lg text-slate-300 leading-relaxed">
@@ -203,14 +203,13 @@ export default function PricingPage() {
                       >
                         <TiltCard
                           className="h-full"
-                          intensity={3.2}
                           disabled={isExpanded}
                         >
                           <div
-                            className={`p-6 sm:p-7 h-full flex flex-col justify-between space-y-6 rounded-2xl transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] ${
+                            className={`p-6 sm:p-7 h-full flex flex-col justify-between space-y-6 rounded-2xl transition-all duration-300 ${
                               isExpanded
-                                ? "bg-[#191D28] ring-1 ring-han-turquoise/50 shadow-[0_30px_70px_rgba(0,0,0,0.9)]"
-                                : "bg-[#151720] hover:border-white/20"
+                                ? "bg-[#1C202B] ring-1 ring-han-turquoise/40 shadow-xl"
+                                : "bg-[#181B23] border border-white/[0.08] hover:border-white/[0.14]"
                             }`}
                           >
                             <div className="space-y-4">

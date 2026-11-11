@@ -158,11 +158,11 @@ export default function Showcase() {
         <div className="space-y-1">
           <h2
             id="works-heading"
-            className="text-fluid-h2 font-black tracking-[-0.03em] text-han-light"
+            className="text-fluid-h2 font-bold tracking-tight text-han-light"
           >
             {t.showcase.title}
           </h2>
-          <p className="text-xs sm:text-sm font-mono text-slate-400">
+          <p className="text-xs sm:text-sm font-mono tabular-nums text-slate-400">
             [ 0{filteredItems.length} {lang === "id" ? "Proyek Terpilih" : "Featured Projects"} ]
           </p>
         </div>
@@ -272,17 +272,7 @@ export default function Showcase() {
           }`}
           style={{ willChange: "transform, opacity" }}
         >
-          <div className="relative w-[340px] md:w-[380px] aspect-[16/10] rounded-2xl overflow-hidden bg-[#12141B] border border-white/20 shadow-[0_25px_60px_rgba(0,0,0,0.85)] ring-1 ring-white/10">
-            {/* Ambient Back Glow matching active project dot color */}
-            {hoveredIndex !== null && filteredItems[hoveredIndex] && (
-              <div
-                className="absolute -inset-4 -z-10 rounded-3xl blur-2xl opacity-40 transition-colors duration-500"
-                style={{
-                  backgroundColor: filteredItems[hoveredIndex].dotColor,
-                }}
-              />
-            )}
-
+          <div className="relative w-[340px] md:w-[380px] aspect-[16/10] rounded-2xl overflow-hidden bg-[#14161F] border border-white/15 shadow-2xl">
             {/* Cross-fading Image Stack */}
             {filteredItems.map((item, idx) => {
               const isCurrent = hoveredIndex === idx;
@@ -357,7 +347,7 @@ export default function Showcase() {
                       {num}
                     </span>
 
-                    <h3 className="text-xl sm:text-2xl md:text-3xl font-extrabold tracking-tight text-han-light transition-all duration-300 group-hover:translate-x-2 group-hover:text-han-turquoise">
+                    <h3 className="text-xl sm:text-2xl md:text-3xl font-bold tracking-tight text-han-light transition-all duration-200 group-hover:translate-x-1 group-hover:text-han-turquoise">
                       {title}
                     </h3>
                   </div>
@@ -365,10 +355,10 @@ export default function Showcase() {
                   {/* Right Column: Arrow Action Indicator */}
                   <div className="shrink-0 flex items-center justify-end">
                     <span
-                      className={`min-h-[38px] min-w-[38px] inline-flex items-center justify-center rounded-xl border border-white/[0.08] transition-all duration-300 ${
+                      className={`min-h-[38px] min-w-[38px] inline-flex items-center justify-center rounded-xl border border-white/[0.08] transition-all duration-200 ${
                         isExpanded
                           ? "bg-han-turquoise text-han-dark rotate-90"
-                          : "bg-[#13151C] text-slate-300 group-hover:bg-han-turquoise group-hover:text-han-dark group-hover:border-han-turquoise/40"
+                          : "bg-[#181B23] text-slate-300 group-hover:bg-han-turquoise group-hover:text-han-dark group-hover:border-han-turquoise/40"
                       }`}
                     >
                       {isExpanded ? (
