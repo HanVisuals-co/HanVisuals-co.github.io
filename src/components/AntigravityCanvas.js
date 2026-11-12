@@ -271,7 +271,7 @@ export default function AntigravityCanvas({
     };
 
     window.addEventListener("pointermove", handlePointerMove, { passive: true });
-    window.addEventListener("pointerleave", handlePointerLeave, { passive: true });
+    document.documentElement.addEventListener("mouseleave", handlePointerLeave);
 
     // Handle tab visibility to pause computation when hidden
     const handleVisibility = () => {
@@ -279,9 +279,16 @@ export default function AntigravityCanvas({
     };
     document.addEventListener("visibilitychange", handleVisibility);
 
+    // Skip drawing while the canvas is scrolled out of view
+    let inView = true;
+    const observer = new IntersectionObserver(([entry]) => {
+      inView = entry.isIntersecting;
+    });
+    observer.observe(container);
+
     // Main animation loop
     const animate = (time) => {
-      if (!isVisible) {
+      if (!isVisible || !inView) {
         rafId = requestAnimationFrame(animate);
         return;
       }
@@ -302,7 +309,8 @@ export default function AntigravityCanvas({
       if (rafId) cancelAnimationFrame(rafId);
       window.removeEventListener("resize", handleResize);
       window.removeEventListener("pointermove", handlePointerMove);
-      window.removeEventListener("pointerleave", handlePointerLeave);
+      document.documentElement.removeEventListener("mouseleave", handlePointerLeave);
+      observer.disconnect();
       document.removeEventListener("visibilitychange", handleVisibility);
     };
   }, [active, density, motionPaused]);

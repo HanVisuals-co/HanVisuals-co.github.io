@@ -12,6 +12,7 @@ import {
   PrismCheckGlyph,
   PrismExternalGlyph,
 } from "@/components/BrandLogos";
+import { SITE, WA_DEFAULT_TEXT, waLink } from "@/lib/site";
 
 export default function OutroContact() {
   const { t } = useLanguage();
@@ -19,11 +20,11 @@ export default function OutroContact() {
 
   const handleCopy = async () => {
     try {
-      await navigator.clipboard.writeText("muhammadroihannn@gmail.com");
+      await navigator.clipboard.writeText(SITE.email);
       setCopied(true);
       setTimeout(() => setCopied(false), 2400);
     } catch {
-      window.location.href = "mailto:muhammadroihannn@gmail.com";
+      window.location.href = `mailto:${SITE.email}`;
     }
   };
 
@@ -55,7 +56,7 @@ export default function OutroContact() {
 
         <div className="flex flex-wrap items-center gap-3">
           <a
-            href="https://wa.me/6281334535073?text=Halo%20hanvisuals,%20saya%20ingin%20berdiskusi%20mengenai%20proyek."
+            href={waLink(WA_DEFAULT_TEXT)}
             target="_blank"
             rel="noopener noreferrer"
             className="min-h-[46px] inline-flex items-center gap-2.5 rounded-xl bg-han-turquoise hover:bg-han-light px-6 py-2.5 text-sm sm:text-base font-bold text-han-dark transition-colors"
@@ -65,7 +66,7 @@ export default function OutroContact() {
           </a>
 
           <a
-            href="https://www.instagram.com/hanvisuals._?cplk=MWhkOGE0cGYzajAwOA%3D%3D&utm_source=qr"
+            href={SITE.instagram}
             target="_blank"
             rel="noopener noreferrer"
             className="min-h-[46px] inline-flex items-center gap-2.5 rounded-xl bg-[#202430] hover:bg-[#282E3E] border border-white/[0.08] hover:border-han-turquoise/40 px-5 py-2.5 text-sm sm:text-base font-semibold text-slate-200 transition-colors"
@@ -75,7 +76,7 @@ export default function OutroContact() {
           </a>
 
           <a
-            href="mailto:muhammadroihannn@gmail.com"
+            href={`mailto:${SITE.email}`}
             className="min-h-[46px] inline-flex items-center gap-2.5 rounded-xl bg-[#202430] hover:bg-[#282E3E] border border-white/[0.08] hover:border-han-turquoise/40 px-5 py-2.5 text-sm sm:text-base font-semibold text-slate-200 transition-colors"
           >
             <PrismMailGlyph className="w-4 h-4 text-han-turquoise" />

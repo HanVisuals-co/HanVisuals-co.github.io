@@ -1,6 +1,7 @@
 import { Plus_Jakarta_Sans } from "next/font/google";
 import "./globals.css";
 import { LanguageProvider } from "@/context/LanguageContext";
+import { SITE } from "@/lib/site";
 
 const plusJakarta = Plus_Jakarta_Sans({
   subsets: ["latin"],
@@ -10,10 +11,11 @@ const plusJakarta = Plus_Jakarta_Sans({
 });
 
 export const metadata = {
-  metadataBase: new URL("https://hanvisuals.dev"),
+  metadataBase: new URL(SITE.url),
   title: "hanvisuals | Creative Video Production & Web Studio",
   description:
     "Creative studio producing commercial 9:16 video edits, warm editorial color grading, and interactive web applications.",
+  referrer: "strict-origin-when-cross-origin",
   icons: {
     icon: "/icon.svg",
   },

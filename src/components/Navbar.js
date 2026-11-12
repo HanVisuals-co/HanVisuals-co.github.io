@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useLanguage } from "@/context/LanguageContext";
 import { HanVisualsLockup } from "@/components/BrandLogos";
 import LanguageSwitcher from "@/components/LanguageSwitcher";
+import { waLink } from "@/lib/site";
 
 export default function Navbar() {
   const { t } = useLanguage();
@@ -55,7 +56,7 @@ export default function Navbar() {
 
         <div className="hidden md:flex items-center gap-3">
           <a
-            href="https://wa.me/6281334535073"
+            href={waLink()}
             target="_blank"
             rel="noopener noreferrer"
             className="min-h-[38px] inline-flex items-center gap-2 rounded-lg bg-[#181B23] hover:bg-[#202430] border border-white/[0.08] px-3.5 py-1.5 text-xs font-medium text-slate-300 hover:text-han-turquoise transition-colors duration-200"
@@ -129,7 +130,7 @@ export default function Navbar() {
           </div>
           <div className="mt-3 pt-3 border-t border-white/[0.08] flex items-center justify-between gap-2">
             <a
-              href="https://wa.me/6281334535073"
+              href={waLink()}
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex items-center gap-2 text-xs font-medium text-slate-200 hover:text-han-turquoise"

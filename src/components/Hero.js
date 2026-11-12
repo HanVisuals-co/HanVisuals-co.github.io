@@ -11,6 +11,7 @@ import {
   PrismWhatsAppGlyph,
   PrismExternalGlyph,
 } from "@/components/BrandLogos";
+import { SITE, WA_DEFAULT_TEXT, waLink } from "@/lib/site";
 
 export default function Hero() {
   const { t, motionPaused } = useLanguage();
@@ -75,29 +76,19 @@ export default function Hero() {
           videoLayerRef.current.style.opacity = videoOpacity.toFixed(3);
         }
 
-        // 2. Dark overlay opacity: minimal at start (0.06), darkens to 0.98 as video fades
-        const overlayOpacity = Math.min(0.98, 0.06 + progress * 0.92);
+        // 2. Dark overlay: readable scrim from the start (0.4), darkens to 0.98 as video fades
+        const overlayOpacity = Math.min(0.98, 0.4 + progress * 0.58);
         if (overlayLayerRef.current) {
           overlayLayerRef.current.style.opacity = overlayOpacity.toFixed(3);
         }
 
-        // 3. Text opacity & transform: 0.0 at scroll 0 (animation unobstructed),
-        // starts appearing after progress 0.12 and blooms to 1.0 at progress ~0.70
-        let textOpacity = 0;
-        if (progress > 0.12) {
-          textOpacity = Math.min(1, (progress - 0.12) / 0.58);
-        }
-
-        const translateY = Math.max(0, 32 * (1 - textOpacity));
-        const scale = 0.96 + textOpacity * 0.04;
+        // 3. Text is visible on first paint (SEO, a11y, LCP); it only settles in slightly on scroll.
+        const textOpacity = Math.min(1, 0.88 + progress * 0.12);
+        const translateY = Math.max(0, 12 * (1 - progress));
 
         if (textContentRef.current) {
           textContentRef.current.style.opacity = textOpacity.toFixed(3);
-          textContentRef.current.style.transform = `translate3d(0, ${translateY.toFixed(
-            1
-          )}px, 0) scale(${scale.toFixed(3)})`;
-          textContentRef.current.style.pointerEvents =
-            textOpacity > 0.4 ? "auto" : "none";
+          textContentRef.current.style.transform = `translate3d(0, ${translateY.toFixed(1)}px, 0)`;
         }
       });
     };
@@ -127,11 +118,11 @@ export default function Hero() {
 
   const handleCopyEmail = async () => {
     try {
-      await navigator.clipboard.writeText("muhammadroihannn@gmail.com");
+      await navigator.clipboard.writeText(SITE.email);
       setCopied(true);
       setTimeout(() => setCopied(false), 2200);
     } catch {
-      window.location.href = "mailto:muhammadroihannn@gmail.com";
+      window.location.href = `mailto:${SITE.email}`;
     }
   };
 
@@ -146,7 +137,7 @@ export default function Hero() {
         {/* 1. Full-Bleed Ambient Background Video Layer */}
         <div
           ref={videoLayerRef}
-          className="absolute inset-0 z-0 overflow-hidden pointer-events-none select-none transition-opacity duration-150 will-change-[opacity]"
+          className="absolute inset-0 z-0 overflow-hidden pointer-events-none select-none will-change-[opacity]"
         >
           <video
             ref={videoRef}
@@ -174,11 +165,7 @@ export default function Hero() {
         <div className="relative z-10 mx-auto max-w-5xl w-full px-5 sm:px-8 lg:px-12 my-auto text-center flex flex-col items-center justify-center">
           <div
             ref={textContentRef}
-            style={{
-              opacity: 0,
-              transform: "translate3d(0, 32px, 0)",
-              pointerEvents: "none",
-            }}
+            style={{ opacity: 0.88, transform: "translate3d(0, 12px, 0)" }}
             className="space-y-6 flex flex-col items-center will-change-[transform,opacity]"
           >
             <h1 className="text-fluid-h1 font-bold text-han-light drop-shadow-md max-w-4xl mx-auto">
@@ -203,7 +190,7 @@ export default function Hero() {
             <div className="space-y-3 pt-2 flex flex-col items-center">
               <div className="flex flex-wrap items-center justify-center gap-3">
                 <a
-                  href="https://wa.me/6281334535073?text=Halo%20hanvisuals,%20saya%20ingin%20berdiskusi%20mengenai%20proyek."
+                  href={waLink(WA_DEFAULT_TEXT)}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="min-h-[46px] inline-flex items-center gap-2.5 rounded-xl bg-han-turquoise px-6 py-2.5 text-sm sm:text-base font-bold text-han-dark hover:bg-han-light transition-colors duration-200 shadow-xl"
@@ -213,7 +200,7 @@ export default function Hero() {
                 </a>
 
                 <a
-                  href="https://www.instagram.com/hanvisuals._?cplk=MWhkOGE0cGYzajAwOA%3D%3D&utm_source=qr"
+                  href={SITE.instagram}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="min-h-[46px] inline-flex items-center gap-2 rounded-xl bg-[#1E222D]/85 hover:bg-[#252A38] border border-white/[0.08] hover:border-han-turquoise/40 px-5 py-2.5 text-sm sm:text-base font-semibold text-slate-200 hover:text-han-light transition-colors duration-200 backdrop-blur-sm"
@@ -228,7 +215,7 @@ export default function Hero() {
                   type="button"
                   onClick={handleCopyEmail}
                   className="inline-flex items-center gap-1.5 text-xs text-slate-300 hover:text-han-light transition-colors py-1"
-                  title="Copy email: muhammadroihannn@gmail.com"
+                  title={`${t.hero.ctaSecondary}: ${SITE.email}`}
                 >
                   {copied ? (
                     <>
@@ -240,7 +227,7 @@ export default function Hero() {
                   ) : (
                     <>
                       <PrismCopyGlyph className="w-3.5 h-3.5" />
-                      <span>muhammadroihannn@gmail.com</span>
+                      <span>{SITE.email}</span>
                     </>
                   )}
                 </button>
@@ -257,10 +244,10 @@ export default function Hero() {
               onClick={toggleVideoPlayback}
               className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-[#181B23]/80 backdrop-blur-sm border border-white/10 text-slate-200 hover:text-han-turquoise transition-colors"
             >
-              <span>{isVideoPlaying ? "❚❚ Pause Latar" : "▶ Putar Latar"}</span>
+              <span>{isVideoPlaying ? t.hero.pauseBg : t.hero.playBg}</span>
             </button>
             <span className="hidden sm:inline text-slate-400 font-medium">
-              Han Visuals Prism Ambient • 60FPS
+              {t.hero.ambientLabel}
             </span>
           </div>
 
@@ -268,10 +255,8 @@ export default function Hero() {
             <button
               type="button"
               onClick={toggleFloatingShapes}
-              title="Toggle Antigravity Floating Shapes Animation"
-              aria-label={`Floating shapes animation: ${
-                floatingShapes ? "Active" : "Disabled"
-              }`}
+              title={t.hero.shapesTitle}
+              aria-label={`${t.hero.shapesTitle}: ${floatingShapes ? t.hero.shapesOn : t.hero.shapesOff}`}
               className="min-h-[32px] inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-[#181B23]/80 backdrop-blur-sm border border-white/10 text-[11px] font-medium text-slate-400 hover:text-han-light transition-colors"
             >
               <span
@@ -280,7 +265,7 @@ export default function Hero() {
                 }`}
                 aria-hidden="true"
               />
-              <span>{floatingShapes ? "Shapes: ON" : "Shapes: OFF"}</span>
+              <span>{floatingShapes ? t.hero.shapesOn : t.hero.shapesOff}</span>
             </button>
 
             <Link

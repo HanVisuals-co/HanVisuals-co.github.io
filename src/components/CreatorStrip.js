@@ -4,6 +4,7 @@ import React from "react";
 import Link from "next/link";
 import { useLanguage } from "@/context/LanguageContext";
 import { PrismExternalGlyph } from "@/components/BrandLogos";
+import { SITE } from "@/lib/site";
 
 export default function CreatorStrip() {
   const { t } = useLanguage();
@@ -46,7 +47,7 @@ export default function CreatorStrip() {
           </Link>
 
           <a
-            href="https://ihanwcydev.github.io/portfolio/"
+            href={SITE.founderUrl}
             target="_blank"
             rel="noopener noreferrer"
             className="min-h-[42px] inline-flex items-center gap-2 rounded-xl bg-[#202430] hover:bg-[#282E3E] px-4 py-2 text-xs sm:text-sm font-semibold text-slate-200 hover:text-han-light border border-white/[0.08] transition-colors"

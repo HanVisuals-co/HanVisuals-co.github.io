@@ -7,6 +7,7 @@ import {
   PrismWhatsAppGlyph,
   PrismInstagramGlyph,
 } from "@/components/BrandLogos";
+import { SITE, WA_DEFAULT_TEXT, waLink } from "@/lib/site";
 
 export default function FloatingDock() {
   const { t } = useLanguage();
@@ -46,7 +47,7 @@ export default function FloatingDock() {
       className="fixed bottom-4 right-4 sm:bottom-6 sm:right-6 z-40 pb-[env(safe-area-inset-bottom)] flex items-center gap-2 rounded-2xl bg-[#181B23]/95 border border-white/10 p-2 shadow-xl backdrop-blur-md"
     >
       <a
-        href="https://wa.me/6281334535073?text=Halo%20hanvisuals,%20saya%20ingin%20berdiskusi%20mengenai%20proyek."
+        href={waLink(WA_DEFAULT_TEXT)}
         target="_blank"
         rel="noopener noreferrer"
         className="min-h-[40px] inline-flex items-center gap-2 rounded-xl bg-han-turquoise hover:bg-han-light px-3.5 py-1.5 text-xs font-bold text-han-dark transition-colors"
@@ -56,7 +57,7 @@ export default function FloatingDock() {
       </a>
 
       <a
-        href="https://www.instagram.com/hanvisuals._?cplk=MWhkOGE0cGYzajAwOA%3D%3D&utm_source=qr"
+        href={SITE.instagram}
         target="_blank"
         rel="noopener noreferrer"
         className="min-h-[40px] inline-flex items-center gap-2 rounded-xl bg-[#202430] hover:bg-[#282E3E] border border-white/[0.08] px-3.5 py-1.5 text-xs font-semibold text-slate-200 transition-colors"

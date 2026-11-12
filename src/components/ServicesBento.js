@@ -11,6 +11,7 @@ import {
   PrismArrowLeftGlyph,
   PrismCloseGlyph,
 } from "@/components/BrandLogos";
+import { waLink } from "@/lib/site";
 
 export default function ServicesBento() {
   const { t } = useLanguage();
@@ -335,9 +336,7 @@ export default function ServicesBento() {
                           </Link>
 
                           <a
-                            href={`https://wa.me/6281334535073?text=${encodeURIComponent(
-                              `Halo hanvisuals, saya ingin berdiskusi mengenai layanan: ${srv.title}.`
-                            )}`}
+                            href={waLink(`Halo hanvisuals, saya ingin berdiskusi mengenai layanan: ${srv.title}.`)}
                             target="_blank"
                             rel="noopener noreferrer"
                             className="min-h-[44px] inline-flex items-center gap-2 rounded-xl bg-[#12141B] hover:bg-han-slate border border-white/10 px-3.5 py-2 text-xs font-bold text-slate-200 hover:text-han-turquoise transition-colors"
