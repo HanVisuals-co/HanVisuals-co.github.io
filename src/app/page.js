@@ -1,5 +1,4 @@
 import React from "react";
-import AmbientCursor from "@/components/AmbientCursor";
 import SmoothScroll from "@/components/SmoothScroll";
 import Navbar from "@/components/Navbar";
 import Hero from "@/components/Hero";
@@ -14,7 +13,6 @@ export default function HomePage() {
   return (
     <div className="relative min-h-screen bg-han-dark text-han-light">
       <SmoothScroll />
-      <AmbientCursor />
       <Navbar />
       <main id="main-content">
         <Hero />

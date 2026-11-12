@@ -19,7 +19,7 @@ export default function VideoCard({ item, onSelect }) {
     lang === "id" ? item.externalLabelId : item.externalLabelEn;
 
   return (
-    <TiltCard intensity={3.2}>
+    <TiltCard>
       <div
         onClick={onSelect}
         role="button"

@@ -18,7 +18,7 @@ export default function WebCard({ item, onSelect }) {
     lang === "id" ? item.externalLabelId : item.externalLabelEn;
 
   return (
-    <TiltCard intensity={3.8}>
+    <TiltCard>
       <div
         onClick={onSelect}
         role="button"

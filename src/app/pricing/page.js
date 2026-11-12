@@ -7,7 +7,6 @@ import {
   pricingCategories,
   paymentTerms,
 } from "@/data/pricingData";
-import AmbientCursor from "@/components/AmbientCursor";
 import Navbar from "@/components/Navbar";
 import OutroContact from "@/components/OutroContact";
 import TiltCard from "@/components/TiltCard";
@@ -64,7 +63,6 @@ export default function PricingPage() {
 
   return (
     <div className="relative min-h-screen bg-han-dark text-han-light">
-      <AmbientCursor />
       <Navbar />
 
       <main
